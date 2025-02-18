@@ -48,6 +48,14 @@ const StakingPage = () => {
     method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
     params: [account?.address || "0x"],
   });
+  // Fetch total rewards locked
+  const { data: earnedBalance, isLoading: isEarnedBalanceLoading } = useReadContract({
+    contract: stakingContract,
+    //todo use total eanred rewards instead of stake
+    method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
+    params: [account?.address || "0x"],
+  });
+
 
   // Fetch stakers count
   const { data: stakersCount } = useReadContract({
@@ -253,6 +261,16 @@ const StakingPage = () => {
                     ? "..."
                     : erc20Balance !== undefined
                       ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                      : "Conenct Your wallet to see balance"}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography>Your Earned Rewards:</Typography>
+                <Typography>
+                  {isEarnedBalanceLoading
+                    ? "..."
+                    : earnedBalance !== undefined
+                      ? `${(Number(earnedBalance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                       : "Conenct Your wallet to see balance"}
                 </Typography>
               </Box>
