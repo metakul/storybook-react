@@ -92,12 +92,12 @@ const StakingPage = () => {
       await sendTransaction(approveTx);
 
       console.log("Approval successful:", approveTx);
-
+  
       // Step 2: Stake the tokens
       const stakeTx = prepareContractCall({
         contract: stakingContract,
         method: "function stake(uint256 amount, uint256 stakingPeriod)",
-        params: [amountInWei, BigInt(selectedDuration * 86400)],
+        params: [amountInWei, BigInt(selectedDuration)],
       });
       await sendTransaction(stakeTx);
 
@@ -207,7 +207,7 @@ const StakingPage = () => {
                   {isBLockedBalanceLoading
                     ? "..."
                     : erc20Balance !== undefined
-                      ? `${(Number(userLockedAmount && userLockedAmount[0])).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                      ? `${(Number(userLockedAmount && userLockedAmount[0])/ 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                       : "Conenct Your wallet to see balance"}
                 </Typography>
 
@@ -359,7 +359,7 @@ const StakingPage = () => {
                       backgroundColor: 'rgba(30, 41, 59, 0.3)'
                     }
                   }}
-                  onClick={() => setWithdrawAmount(Number(erc20Balance) / 1e18)}
+                  onClick={() => setWithdrawAmount(Number(totalValueLocked) / 1e18)}
                 >
                   Max
                 </Button>
@@ -426,7 +426,7 @@ const StakingPage = () => {
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
               }}>
-                ${Number(totalValueLocked || 0).toLocaleString(undefined, {
+                ${(Number(totalValueLocked  || 0)/ 1e18).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2
                 })}
@@ -460,7 +460,7 @@ const StakingPage = () => {
                 fontSize: '16px',
                 mt: 1
               }}>
-                APY
+                Max APY
               </Typography>
             </CardContent>
           </Card>
