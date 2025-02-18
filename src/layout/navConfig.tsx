@@ -1,15 +1,20 @@
-import NewChatButton from "../components/AiSelection/NewChat";
-import ChatHistory from "../components/AiSelection/ChatHistory";
-
+import HomeIcon from '@mui/icons-material/Home';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import ShopTwoIcon from '@mui/icons-material/ShopTwo';
 export const navConfig = [
   {
     text: "",
-    icon: <NewChatButton />,
+    icon: <HomeIcon />,
     to: "/",
   },
   {
-    text: "",
-    icon: <ChatHistory />,
+    text: "Staking",
+    icon: <UpgradeIcon />,
+    to: "/",
+  },
+  {
+    text: "Buy & Sell",
+    icon: <ShopTwoIcon />,
     to: "/",
   },
   
