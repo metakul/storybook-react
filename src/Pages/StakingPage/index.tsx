@@ -453,7 +453,7 @@ const StakingPage = () => {
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
               }}>
-                {parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '97.23')}%
+                {parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '60')}%
               </Typography>
               <Typography sx={{
                 color: 'rgba(148, 163, 184, 1)',
