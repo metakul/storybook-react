@@ -3,7 +3,7 @@ import { Box, Container, Card, CardContent, Button, Typography, useMediaQuery, u
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
 import { erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
-import StakedInfo from './StakedInfo';
+// import StakedInfo from './StakedInfo';
 
 const StakingPage = () => {
   const theme = useTheme();
