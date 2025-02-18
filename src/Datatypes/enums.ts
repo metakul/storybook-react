@@ -26,7 +26,9 @@ export enum UserType {
 }
 
 export enum Pages {
-  Home=""
+  Home="",
+  Staking="/staking",
+  Swap="/swap",
 }
 
 export enum PromptType {

@@ -3,6 +3,8 @@ import { useRoutes, Navigate } from "react-router-dom";
 import { Pages } from "./Datatypes/enums";
 import DashboardLayout from "./layout/layout";
 import HomePage from "./Pages/HomePage";
+import StakingPage from "./Pages/StakingPage";
+import SwapPage from "./Pages/SwapPage";
 
 const Router: React.FC = () => {
 
@@ -16,6 +18,14 @@ const Router: React.FC = () => {
         {
           path: Pages.Home,
           element: <HomePage/>,
+        },
+        {
+          path: Pages.Staking,
+          element: <StakingPage/>,
+        },
+        {
+          path: Pages.Swap,
+          element: <SwapPage/>,
         },
   
    
