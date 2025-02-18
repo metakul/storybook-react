@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Box, Container, Card, CardContent, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
-import { erc20contract, stakingContract } from '../../config';
+import { config, erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
+import { getColors } from '../../layout/Theme/themes';
 // import StakedInfo from './StakedInfo';
 
 const StakingPage = () => {
@@ -27,6 +28,13 @@ const StakingPage = () => {
     method: "function symbol() returns (string)",
     params: [],
   });
+  const { data: erc20Approval } = useReadContract({
+    contract: erc20contract,
+    method: "function allowance(address owner, address spender) view returns (uint256)",
+    params: [account?.address || "0x", config.stakeContractAddress],
+  });
+  console.log(erc20Approval, "erc20Approval");
+
 
   // Fetch total value locked
   const { data: totalValueLocked } = useReadContract({
@@ -92,7 +100,7 @@ const StakingPage = () => {
       await sendTransaction(approveTx);
 
       console.log("Approval successful:", approveTx);
-  
+
       // Step 2: Stake the tokens
       const stakeTx = prepareContractCall({
         contract: stakingContract,
@@ -136,7 +144,7 @@ const StakingPage = () => {
         {/* Main Staking Card */}
         <Card sx={{
           flex: '1 1 60%',
-          bgcolor: '#0e1016',
+          bgcolor: getColors().primary[900],
           color: 'white',
           borderRadius: '16px'
         }}>
@@ -207,7 +215,7 @@ const StakingPage = () => {
                   {isBLockedBalanceLoading
                     ? "..."
                     : erc20Balance !== undefined
-                      ? `${(Number(userLockedAmount && userLockedAmount[0])/ 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                      ? `${(Number(userLockedAmount && userLockedAmount[0]) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                       : "Conenct Your wallet to see balance"}
                 </Typography>
 
@@ -234,7 +242,8 @@ const StakingPage = () => {
             }}>
               <Typography sx={{
                 fontSize: '48px',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                color: getColors().primary[500]
               }}>
                 {selectedAPY}%
               </Typography>
@@ -415,7 +424,7 @@ const StakingPage = () => {
           flex: '1 1 38%'
         }}>
           <Card sx={{
-            bgcolor: '#0e1016',
+            bgcolor: getColors().primary[900],
             color: 'white',
             borderRadius: '16px',
             height: '150px'  // Adjust the height to match the image
@@ -423,10 +432,11 @@ const StakingPage = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h4" sx={{
                 mb: 2,
+                color: getColors().grey[100],
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
               }}>
-                ${(Number(totalValueLocked  || 0)/ 1e18).toLocaleString(undefined, {
+                ${(Number(totalValueLocked || 0) / 1e18).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2
                 })}
@@ -442,13 +452,15 @@ const StakingPage = () => {
           </Card>
 
           <Card sx={{
-            bgcolor: '#0e1016',
+            bgcolor: getColors().primary[900],
             color: 'white',
             borderRadius: '16px',
             height: '150px'  // Adjust the height to match the image
           }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h4" sx={{
+                color: getColors().grey[100],
+
                 mb: 2,
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
@@ -466,13 +478,14 @@ const StakingPage = () => {
           </Card>
 
           <Card sx={{
-            bgcolor: '#0e1016',
+            bgcolor: getColors().primary[900],
             color: 'white',
             borderRadius: '16px',
             height: '150px'  // Adjust the height to match the image
           }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h4" sx={{
+                color: getColors().grey[100],
                 mb: 2,
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
