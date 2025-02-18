@@ -34,6 +34,12 @@ const StakingPage = () => {
     method: "function getTotalValueLocked() returns (uint256)",
     params: [],
   });
+  // Fetch total value locked
+  const { data: userLockedAmount, isLoading:isBLockedBalanceLoading } = useReadContract({
+    contract: stakingContract,
+    method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
+    params: [account?.address || "0x"],
+  });
 
   // Fetch stakers count
   const { data: stakersCount } = useReadContract({
@@ -101,6 +107,7 @@ const StakingPage = () => {
     }
   };
 
+  
   const handleWithdraw = async () => {
     if (!account) {
       alert("Please connect your wallet first.");
@@ -194,12 +201,25 @@ const StakingPage = () => {
                 <Typography>Yes</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Early unstake fee:</Typography>
-                <Typography>30%</Typography>
+                <Typography>Your Locked Amount:</Typography>
+                <Typography>
+               {isBLockedBalanceLoading
+                ? "..."
+                : erc20Balance !== undefined
+                ? `${(Number(userLockedAmount && userLockedAmount[0])).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                : "Conenct Your wallet to see balance"}
+            </Typography>
+
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Status:</Typography>
-                <Typography>Unlocked</Typography>
+                <Typography>Your Unlocked Account:</Typography>
+                <Typography>
+               {isBalanceLoading
+                ? "..."
+                : erc20Balance !== undefined
+                ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                : "Conenct Your wallet to see balance"}
+            </Typography>
               </Box>
             </Box>
 
@@ -415,7 +435,7 @@ const StakingPage = () => {
         fontSize: '16px',
         mt: 1
       }}>
-        Total Value Locked
+        Total {erc20Symbol} Locked
       </Typography>
     </CardContent>
   </Card>
