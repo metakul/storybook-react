@@ -43,11 +43,14 @@ const StakingPage = () => {
   });
 
   const stakingDurations = [
-    { value: 7, label: '07 Days' },
-    { value: 14, label: '14 Days' },
-    { value: 30, label: '30 Days' },
-    { value: 60, label: '60 Days' }
+    { value: 7, label: '07 Days', apy: 30 },
+    { value: 14, label: '14 Days', apy: 40 },
+    { value: 30, label: '30 Days', apy: 50 },
+    { value: 60, label: '60 Days', apy: 60 }
   ];
+
+  const selectedAPY = stakingDurations.find(d => d.value === selectedDuration)?.apy || 0;
+
   const { data: currentAPY } = useReadContract({
     contract: stakingContract,
     method: "function getCurrentAPY() returns (uint256)",
@@ -212,13 +215,10 @@ const StakingPage = () => {
                 fontSize: '48px',
                 fontWeight: 'bold'
               }}>
-                0%
+                 {selectedAPY}%
               </Typography>
               <Typography sx={{ 
                 color: 'rgba(148, 163, 184, 1)',
-                position: 'absolute',
-                right: 0,
-                top: 0
               }}>
                 APY*
               </Typography>
