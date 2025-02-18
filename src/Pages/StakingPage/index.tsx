@@ -12,6 +12,7 @@ const StakingPage = () => {
   const { mutate: sendTransaction } = useSendTransaction();
   const [stakeAmount, setStakeAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [approvalAmount, setApprovalAmount] = useState(0);
   const [selectedDuration, setSelectedDuration] = useState(7);
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -28,12 +29,11 @@ const StakingPage = () => {
     method: "function symbol() returns (string)",
     params: [],
   });
-  const { data: erc20Approval } = useReadContract({
+  const { data: erc20ApprovedToken, isLoading: isApprovedTokenLoading } = useReadContract({
     contract: erc20contract,
     method: "function allowance(address owner, address spender) view returns (uint256)",
     params: [account?.address || "0x", config.stakeContractAddress],
   });
-  console.log(erc20Approval, "erc20Approval");
 
 
   // Fetch total value locked
@@ -70,6 +70,42 @@ const StakingPage = () => {
     method: "function getCurrentAPY() returns (uint256)",
     params: [],
   });
+  const handleApprove = async () => {
+    if (!account) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+
+    if (approvalAmount <= 0) {
+      alert("Amount must be greater than 0.");
+      return;
+    }
+
+    // Convert amount to token decimals (assuming 18 decimals)
+    const amountInWei = BigInt(approvalAmount * 1e18);
+
+    // Check if the user has sufficient balance
+    if (erc20Balance === undefined || amountInWei > erc20Balance) {
+      alert("Insufficient token balance.");
+      return;
+    }
+
+    try {
+      // Step 1: Approve the staking contract to spend the tokens
+      const approveTx = prepareContractCall({
+        contract: erc20contract,
+        method: "function approve(address spender, uint256 amount)",
+        params: [stakingContract.address, amountInWei],
+      });
+      await sendTransaction(approveTx);
+
+      console.log("Approval successful:", approveTx);
+
+    } catch (error) {
+      console.error("Approval failed:", error);
+      alert("Approval failed. Please try again.");
+    }
+  };
   const handleStake = async () => {
     if (!account) {
       alert("Please connect your wallet first.");
@@ -91,17 +127,7 @@ const StakingPage = () => {
     }
 
     try {
-      // Step 1: Approve the staking contract to spend the tokens
-      const approveTx = prepareContractCall({
-        contract: erc20contract,
-        method: "function approve(address spender, uint256 amount)",
-        params: [stakingContract.address, amountInWei],
-      });
-      await sendTransaction(approveTx);
-
-      console.log("Approval successful:", approveTx);
-
-      // Step 2: Stake the tokens
+      // Step 1: Stake the tokens
       const stakeTx = prepareContractCall({
         contract: stakingContract,
         method: "function stake(uint256 amount, uint256 stakingPeriod)",
@@ -275,8 +301,8 @@ const StakingPage = () => {
               }}>
                 <input
                   type="number"
-                  value={stakeAmount}
-                  onChange={(e) => setStakeAmount(parseFloat(e.target.value) || 0)}
+                  value={approvalAmount}
+                  onChange={(e) => setApprovalAmount(parseFloat(e.target.value) || 0)}
                   style={{
                     background: 'transparent',
                     border: 'none',
@@ -295,7 +321,7 @@ const StakingPage = () => {
                       backgroundColor: 'rgba(30, 41, 59, 0.3)'
                     }
                   }}
-                  onClick={() => setStakeAmount(Number(erc20Balance) / 1e18)}
+                  onClick={() => setApprovalAmount(Number(erc20Balance) / 1e18)}
                 >
                   Max
                 </Button>
@@ -320,13 +346,20 @@ const StakingPage = () => {
                   letterSpacing: '0.025em',
                   transition: 'all 0.2s ease-in-out'
                 }}
-                onClick={handleStake}
+                onClick={handleApprove}
                 disabled={!account || stakeAmount <= 0 || isBalanceLoading}
               >
                 Approve
               </Button>
             </Box>
 
+            <Box>
+              {isApprovedTokenLoading
+                ? "..."
+                : erc20ApprovedToken !== undefined
+                  ? `  Total Approved Tokens:  ${(Number(erc20ApprovedToken) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                  : "Conenct Your wallet to see balance"}
+            </Box>
             {/* Withdraw Input Field + Withdraw Button - Side by side */}
             <Box sx={{
               display: 'flex',
@@ -334,6 +367,7 @@ const StakingPage = () => {
               alignItems: 'center',
               gap: 2,
               mb: 3,
+              mt: 3
             }}>
               <Box sx={{
                 flex: 3,
@@ -348,8 +382,8 @@ const StakingPage = () => {
               }}>
                 <input
                   type="number"
-                  value={withdrawAmount}
-                  onChange={(e) => setWithdrawAmount(parseFloat(e.target.value) || 0)}
+                  value={stakeAmount}
+                  onChange={(e) => setStakeAmount(parseFloat(e.target.value) || 0)}
                   style={{
                     background: 'transparent',
                     border: 'none',
@@ -368,7 +402,7 @@ const StakingPage = () => {
                       backgroundColor: 'rgba(30, 41, 59, 0.3)'
                     }
                   }}
-                  onClick={() => setWithdrawAmount(Number(totalValueLocked) / 1e18)}
+                  onClick={() => setStakeAmount(Number(erc20ApprovedToken) / 1e18)}
                 >
                   Max
                 </Button>
@@ -389,10 +423,10 @@ const StakingPage = () => {
                   letterSpacing: '0.025em',
                   transition: 'all 0.2s ease-in-out'
                 }}
-                onClick={handleWithdraw}
+                onClick={handleStake}
                 disabled={!account}
               >
-                Withdraw
+                Stake
               </Button>
             </Box>
             <Typography sx={{
