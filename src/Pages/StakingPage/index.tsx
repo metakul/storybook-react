@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import { Box, Container, Card, CardContent, Button, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Container, Card, CardContent, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
 import { erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import StakedInfo from './StakedInfo';
 
 const StakingPage = () => {
+  const theme = useTheme();
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
   const [stakeAmount, setStakeAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [selectedDuration, setSelectedDuration] = useState(7);
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
 
   // Fetch ERC20 token balance
   const { data: erc20Balance, isLoading: isBalanceLoading } = useReadContract({
@@ -116,7 +119,9 @@ const StakingPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', gap: 2 }}>
+      <Box sx={{ display: 'flex', gap: 2, 
+         flexDirection: isMdUp ? "row" : "column",
+       }}>
         {/* Main Staking Card */}
         <Card sx={{ 
           flex: '1 1 60%',
@@ -133,11 +138,11 @@ const StakingPage = () => {
               Participate IGO Stake
             </Typography>
             <Typography variant="h5" sx={{ mb: 3, color: '#fff' }}>
-              {isBalanceLoading
+              Wallet Balance: {isBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
                 ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
-                : "N/A"}
+                : "Conenct Your wallet to see balance"}
             </Typography>
 
                       {/* Duration Selector - Styled to match the image exactly */}
