@@ -42,20 +42,54 @@ const StakingPage = () => {
     method: "function getTotalValueLocked() returns (uint256)",
     params: [],
   });
+  // Fetch total value locked for 7 days
+  const { data: userLockedAmountFor7Days, isLoading: isLockedBalanceLoading } = useReadContract({
+    contract: stakingContract,
+    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(7)],
+  });
+  const { data: userEarnedAmountFor7Days, isLoading: isEarnedBalanceLoading } = useReadContract({
+    contract: stakingContract,
+    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(7)],
+  });
+  console.log("userLockedAmountFor7Days",userLockedAmountFor7Days,userEarnedAmountFor7Days);
+  
   // Fetch total value locked
-  const { data: userLockedAmount, isLoading: isBLockedBalanceLoading } = useReadContract({
+  const { data: userLockedAmountFor14Days } = useReadContract({
     contract: stakingContract,
-    method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
-    params: [account?.address || "0x"],
+    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(14)],
   });
-  // Fetch total rewards locked
-  const { data: earnedBalance, isLoading: isEarnedBalanceLoading } = useReadContract({
+  const { data: userEarnedAmountFor14Days } = useReadContract({
     contract: stakingContract,
-    //todo use total eanred rewards instead of stake
-    method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
-    params: [account?.address || "0x"],
+    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(14)],
   });
+  console.log("userLockedAmountFor14Days",userLockedAmountFor14Days,userEarnedAmountFor14Days);
 
+  // Fetch total value locked
+  const { data: userLockedAmountFor30Days } = useReadContract({
+    contract: stakingContract,
+    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(30)],
+  });
+  const { data: userEarnedAmountFor30Days } = useReadContract({
+    contract: stakingContract,
+    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(30)],
+  });
+  // Fetch total value locked
+  const { data: userLockedAmountFor60Days } = useReadContract({
+    contract: stakingContract,
+    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(60)],
+  });
+  const { data: userEarnedAmountFor60Days } = useReadContract({
+    contract: stakingContract,
+    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x",BigInt(60)],
+  });
 
   // Fetch stakers count
   const { data: stakersCount } = useReadContract({
@@ -65,13 +99,15 @@ const StakingPage = () => {
   });
 
   const stakingDurations = [
-    { value: 7, label: '07 Days', apy: 30 },
-    { value: 14, label: '14 Days', apy: 40 },
-    { value: 30, label: '30 Days', apy: 50 },
-    { value: 60, label: '60 Days', apy: 60 }
+    { value: 7, label: '07 Days', apy: 30, lockedAmount:userLockedAmountFor7Days,rewardsEarned :userEarnedAmountFor7Days},
+    { value: 14, label: '14 Days', apy: 40, lockedAmount:userLockedAmountFor14Days,rewardsEarned:userEarnedAmountFor14Days },
+    { value: 30, label: '30 Days', apy: 50, lockedAmount:userLockedAmountFor30Days,rewardsEarned:userEarnedAmountFor30Days },
+    { value: 60, label: '60 Days', apy: 60, lockedAmount:userLockedAmountFor60Days, rewardsEarned :userEarnedAmountFor60Days}
   ];
 
   const selectedAPY = stakingDurations.find(d => d.value === selectedDuration)?.apy || 0;
+  const selectedLockedAmount = stakingDurations.find(d => d.value === selectedDuration)?.lockedAmount || 0;
+  const selectedEarnedAmount = stakingDurations.find(d => d.value === selectedDuration)?.rewardsEarned || 0;
 
   const { data: currentAPY } = useReadContract({
     contract: stakingContract,
@@ -246,10 +282,10 @@ const StakingPage = () => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography>Your Locked Amount:</Typography>
                 <Typography>
-                  {isBLockedBalanceLoading
+                  {isLockedBalanceLoading
                     ? "..."
-                    : erc20Balance !== undefined
-                      ? `${(Number(userLockedAmount && userLockedAmount[0]) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                    : selectedLockedAmount !== undefined
+                      ? `${(Number(selectedLockedAmount) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                       : "Conenct Your wallet to see balance"}
                 </Typography>
 
@@ -269,8 +305,8 @@ const StakingPage = () => {
                 <Typography>
                   {isEarnedBalanceLoading
                     ? "..."
-                    : earnedBalance !== undefined
-                      ? `${(Number(earnedBalance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                    : selectedEarnedAmount !== undefined
+                      ? `${(Number(selectedEarnedAmount) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                       : "Conenct Your wallet to see balance"}
                 </Typography>
               </Box>
@@ -365,7 +401,7 @@ const StakingPage = () => {
                   transition: 'all 0.2s ease-in-out'
                 }}
                 onClick={handleApprove}
-                disabled={!account || stakeAmount <= 0 || isBalanceLoading}
+                disabled={!account || approvalAmount <= 0 || isBalanceLoading}
               >
                 Approve
               </Button>
