@@ -35,7 +35,7 @@ const StakingPage = () => {
     params: [],
   });
   // Fetch total value locked
-  const { data: userLockedAmount, isLoading:isBLockedBalanceLoading } = useReadContract({
+  const { data: userLockedAmount, isLoading: isBLockedBalanceLoading } = useReadContract({
     contract: stakingContract,
     method: "function stakes(address) view returns (uint256 amount, uint256 startTime, uint256 duration, bool rewardsClaimed)",
     params: [account?.address || "0x"],
@@ -107,7 +107,7 @@ const StakingPage = () => {
     }
   };
 
-  
+
   const handleWithdraw = async () => {
     if (!account) {
       alert("Please connect your wallet first.");
@@ -129,18 +129,19 @@ const StakingPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', gap: 2, 
-         flexDirection: isMdUp ? "row" : "column",
-       }}>
+      <Box sx={{
+        display: 'flex', gap: 2,
+        flexDirection: isMdUp ? "row" : "column",
+      }}>
         {/* Main Staking Card */}
-        <Card sx={{ 
+        <Card sx={{
           flex: '1 1 60%',
-          bgcolor: '#0e1016', 
+          bgcolor: '#0e1016',
           color: 'white',
           borderRadius: '16px'
         }}>
           <CardContent sx={{ p: 4 }}>
-            <Typography variant="h4" sx={{ 
+            <Typography variant="h4" sx={{
               fontWeight: 500,
               mb: 1,
               fontSize: '28px'
@@ -151,44 +152,44 @@ const StakingPage = () => {
               Wallet Balance: {isBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
-                ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
-                : "Conenct Your wallet to see balance"}
+                  ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                  : "Conenct Your wallet to see balance"}
             </Typography>
 
-                      {/* Duration Selector - Styled to match the image exactly */}
-              <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-                {stakingDurations.map((duration) => (
-                  <Button
-                    key={duration.value}
-                    sx={{
-                      bgcolor: selectedDuration === duration.value 
-                        ? '#4f46e5' 
-                        : 'rgba(15, 23, 42, 0.6)',
-                      color: 'white',
-                      '&:hover': {
-                        bgcolor: selectedDuration === duration.value 
-                          ? '#4338ca' 
-                          : 'rgba(30, 41, 59, 0.8)'
-                      },
-                      textTransform: 'none',
-                      borderRadius: '8px',
-                      py: 1,
-                      px: 3,
-                      border: selectedDuration === duration.value 
-                        ? 'none' 
-                        : '1px solid rgba(30, 41, 59, 0.3)',
-                      boxShadow: selectedDuration === duration.value 
-                        ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                        : 'inset 0 2px 5px rgba(0, 0, 0, 0.2)',
-                      fontWeight: selectedDuration === duration.value ? 'medium' : 'normal',
-                      transition: 'all 0.2s ease-in-out'
-                    }}
-                    onClick={() => setSelectedDuration(duration.value)}
-                  >
-                    {duration.label}
-                  </Button>
-                ))}
-              </Box>
+            {/* Duration Selector - Styled to match the image exactly */}
+            <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+              {stakingDurations.map((duration) => (
+                <Button
+                  key={duration.value}
+                  sx={{
+                    bgcolor: selectedDuration === duration.value
+                      ? '#4f46e5'
+                      : 'rgba(15, 23, 42, 0.6)',
+                    color: 'white',
+                    '&:hover': {
+                      bgcolor: selectedDuration === duration.value
+                        ? '#4338ca'
+                        : 'rgba(30, 41, 59, 0.8)'
+                    },
+                    textTransform: 'none',
+                    borderRadius: '8px',
+                    py: 1,
+                    px: 3,
+                    border: selectedDuration === duration.value
+                      ? 'none'
+                      : '1px solid rgba(30, 41, 59, 0.3)',
+                    boxShadow: selectedDuration === duration.value
+                      ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                      : 'inset 0 2px 5px rgba(0, 0, 0, 0.2)',
+                    fontWeight: selectedDuration === duration.value ? 'medium' : 'normal',
+                    transition: 'all 0.2s ease-in-out'
+                  }}
+                  onClick={() => setSelectedDuration(duration.value)}
+                >
+                  {duration.label}
+                </Button>
+              ))}
+            </Box>
 
             {/* Staking Info */}
             <Box sx={{ mb: 4, color: 'rgba(148, 163, 184, 1)' }}>
@@ -203,41 +204,41 @@ const StakingPage = () => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography>Your Locked Amount:</Typography>
                 <Typography>
-               {isBLockedBalanceLoading
-                ? "..."
-                : erc20Balance !== undefined
-                ? `${(Number(userLockedAmount && userLockedAmount[0])).toLocaleString()} ${erc20Symbol || 'BUSD'}`
-                : "Conenct Your wallet to see balance"}
-            </Typography>
+                  {isBLockedBalanceLoading
+                    ? "..."
+                    : erc20Balance !== undefined
+                      ? `${(Number(userLockedAmount && userLockedAmount[0])).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                      : "Conenct Your wallet to see balance"}
+                </Typography>
 
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography>Your Unlocked Account:</Typography>
                 <Typography>
-               {isBalanceLoading
-                ? "..."
-                : erc20Balance !== undefined
-                ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
-                : "Conenct Your wallet to see balance"}
-            </Typography>
+                  {isBalanceLoading
+                    ? "..."
+                    : erc20Balance !== undefined
+                      ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                      : "Conenct Your wallet to see balance"}
+                </Typography>
               </Box>
             </Box>
 
             {/* APY Display - Styled as in image */}
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center', 
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               mb: 4,
               position: 'relative'
             }}>
-              <Typography sx={{ 
+              <Typography sx={{
                 fontSize: '48px',
                 fontWeight: 'bold'
               }}>
-                 {selectedAPY}%
+                {selectedAPY}%
               </Typography>
-              <Typography sx={{ 
+              <Typography sx={{
                 color: 'rgba(148, 163, 184, 1)',
               }}>
                 APY*
@@ -245,14 +246,14 @@ const StakingPage = () => {
             </Box>
 
             {/* Stake Input Field + Approve Button - Side by side */}
-            <Box sx={{ 
+            <Box sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: 2,
               mb: 2,
             }}>
-              <Box sx={{ 
+              <Box sx={{
                 flex: 3,
                 p: 2,
                 border: '1px solid rgba(30, 41, 59, 0.3)',
@@ -277,8 +278,8 @@ const StakingPage = () => {
                   }}
                   placeholder="0"
                 />
-                <Button 
-                  sx={{ 
+                <Button
+                  sx={{
                     color: 'white',
                     minWidth: 'auto',
                     '&:hover': {
@@ -318,14 +319,14 @@ const StakingPage = () => {
             </Box>
 
             {/* Withdraw Input Field + Withdraw Button - Side by side */}
-            <Box sx={{ 
+            <Box sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: 2,
               mb: 3,
             }}>
-              <Box sx={{ 
+              <Box sx={{
                 flex: 3,
                 p: 2,
                 border: '1px solid rgba(30, 41, 59, 0.3)',
@@ -350,8 +351,8 @@ const StakingPage = () => {
                   }}
                   placeholder="0"
                 />
-                <Button 
-                  sx={{ 
+                <Button
+                  sx={{
                     color: 'white',
                     minWidth: 'auto',
                     '&:hover': {
@@ -385,18 +386,18 @@ const StakingPage = () => {
                 Withdraw
               </Button>
             </Box>
-            <Typography sx={{ 
+            <Typography sx={{
               color: 'rgba(148, 163, 184, 1)',
               fontSize: '14px',
               mb: 1,
               lineHeight: 1.5
             }}>
-              Once staked, you need to register for every IDO, so we can calculate 
-              the guaranteed allocation. Once registered, we lock your tokens, but 
+              Once staked, you need to register for every IDO, so we can calculate
+              the guaranteed allocation. Once registered, we lock your tokens, but
               you still can participate in other IDOs.
             </Typography>
-            
-            <Typography sx={{ 
+
+            <Typography sx={{
               color: 'rgba(148, 163, 184, 1)',
               fontSize: '14px'
             }}>
@@ -406,91 +407,91 @@ const StakingPage = () => {
         </Card>
 
         {/* Stats Cards - Vertical Stack - Styled to match image */}
-{/* Stats Cards - Vertical Stack - Styled to match image */}
-<Box sx={{ 
-  display: 'flex', 
-  flexDirection: 'column',
-  gap: 2,
-  flex: '1 1 38%'
-}}>
-  <Card sx={{ 
-    bgcolor: '#0e1016', 
-    color: 'white',
-    borderRadius: '16px',
-    height: '150px'  // Adjust the height to match the image
-  }}>
-    <CardContent sx={{ p: 4 }}>
-      <Typography variant="h4" sx={{ 
-        mb: 2, 
-        fontWeight: 'bold',
-        fontSize: '32px'  // Larger font size for the value
-      }}>
-        ${Number(totalValueLocked || 0).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })}
-      </Typography>
-      <Typography sx={{ 
-        color: 'rgba(148, 163, 184, 1)',
-        fontSize: '16px',
-        mt: 1
-      }}>
-        Total {erc20Symbol} Locked
-      </Typography>
-    </CardContent>
-  </Card>
+        {/* Stats Cards - Vertical Stack - Styled to match image */}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          flex: '1 1 38%'
+        }}>
+          <Card sx={{
+            bgcolor: '#0e1016',
+            color: 'white',
+            borderRadius: '16px',
+            height: '150px'  // Adjust the height to match the image
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h4" sx={{
+                mb: 2,
+                fontWeight: 'bold',
+                fontSize: '32px'  // Larger font size for the value
+              }}>
+                ${Number(totalValueLocked || 0).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}
+              </Typography>
+              <Typography sx={{
+                color: 'rgba(148, 163, 184, 1)',
+                fontSize: '16px',
+                mt: 1
+              }}>
+                Total {erc20Symbol} Locked
+              </Typography>
+            </CardContent>
+          </Card>
 
-  <Card sx={{ 
-    bgcolor: '#0e1016', 
-    color: 'white',
-    borderRadius: '16px',
-    height: '150px'  // Adjust the height to match the image
-  }}>
-    <CardContent sx={{ p: 4 }}>
-      <Typography variant="h4" sx={{ 
-        mb: 2, 
-        fontWeight: 'bold',
-        fontSize: '32px'  // Larger font size for the value
-      }}>
-{parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '97.23')}%
-</Typography>
-      <Typography sx={{ 
-        color: 'rgba(148, 163, 184, 1)',
-        fontSize: '16px',
-        mt: 1
-      }}>
-        APY
-      </Typography>
-    </CardContent>
-  </Card>
+          <Card sx={{
+            bgcolor: '#0e1016',
+            color: 'white',
+            borderRadius: '16px',
+            height: '150px'  // Adjust the height to match the image
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h4" sx={{
+                mb: 2,
+                fontWeight: 'bold',
+                fontSize: '32px'  // Larger font size for the value
+              }}>
+                {parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '97.23')}%
+              </Typography>
+              <Typography sx={{
+                color: 'rgba(148, 163, 184, 1)',
+                fontSize: '16px',
+                mt: 1
+              }}>
+                APY
+              </Typography>
+            </CardContent>
+          </Card>
 
-  <Card sx={{ 
-    bgcolor: '#0e1016', 
-    color: 'white',
-    borderRadius: '16px',
-    height: '150px'  // Adjust the height to match the image
-  }}>
-    <CardContent sx={{ p: 4 }}>
-      <Typography variant="h4" sx={{ 
-        mb: 2, 
-        fontWeight: 'bold',
-        fontSize: '32px'  // Larger font size for the value
-      }}>
-        {Number(stakersCount || 0).toLocaleString()}
-      </Typography>
-      <Typography sx={{ 
-        color: 'rgba(148, 163, 184, 1)',
-        fontSize: '16px',
-        mt: 1
-      }}>
-        Number of Stakers
-      </Typography>
-    </CardContent>
-  </Card>
-</Box>
+          <Card sx={{
+            bgcolor: '#0e1016',
+            color: 'white',
+            borderRadius: '16px',
+            height: '150px'  // Adjust the height to match the image
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h4" sx={{
+                mb: 2,
+                fontWeight: 'bold',
+                fontSize: '32px'  // Larger font size for the value
+              }}>
+                {Number(stakersCount || 0).toLocaleString()}
+              </Typography>
+              <Typography sx={{
+                color: 'rgba(148, 163, 184, 1)',
+                fontSize: '16px',
+                mt: 1
+              }}>
+                Number of Stakers
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
       </Box>
-      
-      <StakedInfo />
+
+      {/* <StakedInfo /> */}
     </Container>
   );
 };
