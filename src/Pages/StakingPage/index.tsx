@@ -11,7 +11,6 @@ const StakingPage = () => {
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
   const [stakeAmount, setStakeAmount] = useState(0);
-  const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [approvalAmount, setApprovalAmount] = useState(0);
   const [selectedDuration, setSelectedDuration] = useState(7);
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -149,26 +148,6 @@ const StakingPage = () => {
     } catch (error) {
       console.error("Staking failed:", error);
       alert("Staking failed. Please try again.");
-    }
-  };
-
-
-  const handleWithdraw = async () => {
-    if (!account) {
-      alert("Please connect your wallet first.");
-      return;
-    }
-
-    try {
-      const withdrawTx = prepareContractCall({
-        contract: stakingContract,
-        method: "function withdraw()",
-        params: [],
-      });
-      await sendTransaction(withdrawTx);
-    } catch (error) {
-      console.error("Withdrawal failed:", error);
-      alert("Withdrawal failed. Please try again.");
     }
   };
 
