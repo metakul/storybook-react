@@ -249,7 +249,7 @@ const StakingPage = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Your Earned Rewards:</Typography>
+                <Typography>Your Pending Rewards:</Typography>
                 <Typography>
                   {isEarnedBalanceLoading
                     ? "..."
