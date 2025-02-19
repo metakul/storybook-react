@@ -12,7 +12,7 @@ const StakingPage = () => {
   const { mutate: sendTransaction } = useSendTransaction();
   const [stakeAmount, setStakeAmount] = useState(0);
   const [approvalAmount, setApprovalAmount] = useState(0);
-  const [selectedDuration, setSelectedDuration] = useState(7);
+  const [selectedDuration, setSelectedDuration] = useState(30);
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
 
@@ -65,10 +65,10 @@ const StakingPage = () => {
   });
 
   const stakingDurations = [
-    { value: 7, label: '07 Days', apy: 30, lockedAmount:userLockedAmount,rewardsEarned :userEarnedAmount},
-    { value: 14, label: '14 Days', apy: 40, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
-    { value: 30, label: '30 Days', apy: 50, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
-    { value: 60, label: '60 Days', apy: 60, lockedAmount:userLockedAmount, rewardsEarned :userEarnedAmount}
+    { value: 30, label: '30 Days', apy: 15, lockedAmount:userLockedAmount,rewardsEarned :userEarnedAmount},
+    { value: 90, label: '90 Days', apy: 25, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
+    { value: 180, label: '180 Days', apy: 25, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
+    { value: 360, label: '360 Days', apy: 30, lockedAmount:userLockedAmount, rewardsEarned :userEarnedAmount}
   ];
 
   const selectedAPY = stakingDurations.find(d => d.value === selectedDuration)?.apy || 0;
@@ -140,9 +140,11 @@ const StakingPage = () => {
       // Step 1: Stake the tokens
       const stakeTx = prepareContractCall({
         contract: stakingContract,
-        method: "function stake(uint256 amount, uint256 stakingPeriod)",
+        method: "function stake(uint256 _amount, uint256 _duration)",
         params: [amountInWei, BigInt(selectedDuration)],
       });
+      console.log(stakeTx);
+      
       await sendTransaction(stakeTx);
 
     } catch (error) {
@@ -161,7 +163,7 @@ const StakingPage = () => {
         <Card sx={{
           flex: '1 1 60%',
           bgcolor: getColors().primary[900],
-          color: 'white',
+          color: getColors().grey[100],
           borderRadius: '16px'
         }}>
           <CardContent sx={{ p: 4 }}>
@@ -172,7 +174,7 @@ const StakingPage = () => {
             }}>
               Participate IGO Stake
             </Typography>
-            <Typography variant="h5" sx={{ mb: 3, color: '#fff' }}>
+            <Typography variant="h5" sx={{ mb: 3,  }}>
               Wallet Balance: {isBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
@@ -402,29 +404,34 @@ const StakingPage = () => {
                       backgroundColor: 'rgba(30, 41, 59, 0.3)'
                     }
                   }}
+                  
                   onClick={() => setStakeAmount(Number(erc20ApprovedToken) / 1e18)}
                 >
                   Max
                 </Button>
               </Box>
               <Button
-                sx={{
-                  flex: 1,
-                  bgcolor: '#4f46e5',
-                  color: 'white',
-                  py: 1.5,
-                  borderRadius: '8px',
-                  '&:hover': {
-                    bgcolor: '#4338ca'
-                  },
-                  textTransform: 'none',
-                  fontWeight: 'medium',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                  letterSpacing: '0.025em',
-                  transition: 'all 0.2s ease-in-out'
-                }}
+                     sx={{
+                      flex: 1,
+                      bgcolor: '#4f46e5',
+                      color: 'white',
+                      py: 1.5,
+                      borderRadius: '8px',
+                      '&:hover': {
+                        bgcolor: '#4338ca'
+                      },
+                      textTransform: 'none',
+                      '&:disabled': {
+                        bgcolor: 'rgba(79, 70, 229, 0.6)',
+                        color: 'white'
+                      },
+                      fontWeight: 'medium',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                      letterSpacing: '0.025em',
+                      transition: 'all 0.2s ease-in-out'
+                    }}
+                disabled={!account || stakeAmount <= 0 || isBalanceLoading}
                 onClick={handleStake}
-                disabled={!account}
               >
                 Stake
               </Button>
@@ -499,7 +506,7 @@ const StakingPage = () => {
                 fontWeight: 'bold',
                 fontSize: '32px'  // Larger font size for the value
               }}>
-                {parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '60')}%
+                {parseFloat(currentAPY ? (Number(currentAPY) / 100).toFixed(2) : '30')}%
               </Typography>
               <Typography sx={{
                 color: 'rgba(148, 163, 184, 1)',
