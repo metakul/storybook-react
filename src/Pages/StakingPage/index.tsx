@@ -4,7 +4,7 @@ import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/
 import { config, erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import { getColors } from '../../layout/Theme/themes';
-// import StakedInfo from './StakedInfo';
+import StakedInfo from './StakedInfo';
 
 const StakingPage = () => {
   const theme = useTheme();
@@ -43,53 +43,20 @@ const StakingPage = () => {
     params: [],
   });
   // Fetch total value locked for 7 days
-  const { data: userLockedAmountFor7Days, isLoading: isLockedBalanceLoading } = useReadContract({
+  const { data: userLockedAmount, isLoading: isLockedBalanceLoading } = useReadContract({
     contract: stakingContract,
-    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(7)],
+    method: "function getLockedAmount(address) view returns (uint256 lockedAmount)",
+    params: [account?.address || "0x"],
   });
-  const { data: userEarnedAmountFor7Days, isLoading: isEarnedBalanceLoading } = useReadContract({
+  const { data: userEarnedAmount, isLoading: isEarnedBalanceLoading } = useReadContract({
     contract: stakingContract,
-    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(7)],
+    method: "function getClaimableRewards(address) view returns (uint256 earnedAmount)",
+    params: [account?.address || "0x"],
   });
-  console.log("userLockedAmountFor7Days",userLockedAmountFor7Days,userEarnedAmountFor7Days);
+  console.log("userLockedAmountFor7Days",userLockedAmount,userEarnedAmount);
   
-  // Fetch total value locked
-  const { data: userLockedAmountFor14Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(14)],
-  });
-  const { data: userEarnedAmountFor14Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(14)],
-  });
-  console.log("userLockedAmountFor14Days",userLockedAmountFor14Days,userEarnedAmountFor14Days);
 
-  // Fetch total value locked
-  const { data: userLockedAmountFor30Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(30)],
-  });
-  const { data: userEarnedAmountFor30Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(30)],
-  });
-  // Fetch total value locked
-  const { data: userLockedAmountFor60Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getLockedAmountForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(60)],
-  });
-  const { data: userEarnedAmountFor60Days } = useReadContract({
-    contract: stakingContract,
-    method: "function getClaimableRewardsForDuration(address,uint256) view returns (uint256 lockedAmount)",
-    params: [account?.address || "0x",BigInt(60)],
-  });
+
 
   // Fetch stakers count
   const { data: stakersCount } = useReadContract({
@@ -99,10 +66,10 @@ const StakingPage = () => {
   });
 
   const stakingDurations = [
-    { value: 7, label: '07 Days', apy: 30, lockedAmount:userLockedAmountFor7Days,rewardsEarned :userEarnedAmountFor7Days},
-    { value: 14, label: '14 Days', apy: 40, lockedAmount:userLockedAmountFor14Days,rewardsEarned:userEarnedAmountFor14Days },
-    { value: 30, label: '30 Days', apy: 50, lockedAmount:userLockedAmountFor30Days,rewardsEarned:userEarnedAmountFor30Days },
-    { value: 60, label: '60 Days', apy: 60, lockedAmount:userLockedAmountFor60Days, rewardsEarned :userEarnedAmountFor60Days}
+    { value: 7, label: '07 Days', apy: 30, lockedAmount:userLockedAmount,rewardsEarned :userEarnedAmount},
+    { value: 14, label: '14 Days', apy: 40, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
+    { value: 30, label: '30 Days', apy: 50, lockedAmount:userLockedAmount,rewardsEarned:userEarnedAmount },
+    { value: 60, label: '60 Days', apy: 60, lockedAmount:userLockedAmount, rewardsEarned :userEarnedAmount}
   ];
 
   const selectedAPY = stakingDurations.find(d => d.value === selectedDuration)?.apy || 0;
@@ -592,7 +559,7 @@ const StakingPage = () => {
         </Box>
       </Box>
 
-      {/* <StakedInfo /> */}
+      <StakedInfo />
     </Container>
   );
 };
