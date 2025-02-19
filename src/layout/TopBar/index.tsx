@@ -18,7 +18,7 @@ import { ColorModeContext, getColors } from "../Theme/themes";
 import { motion } from "framer-motion";
 import "./style.css"
 import { ConnectButton } from "thirdweb/react";
-import { client, wallets } from "../../client";
+import { client } from "../../client";
 
 interface HeaderProps {
   setIsSidebarOpen: () => void;
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR }) => {
         </Box>
 
         <Box sx={{ flexGrow: 1 }} />
-        <ConnectButton client={client} wallets={wallets} />
+        <ConnectButton client={client} />
         <Stack
           sx={{
             mt: 1

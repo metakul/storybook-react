@@ -1,6 +1,7 @@
 import { getContract } from "thirdweb";
 import { client } from "./client";
-import { polygon } from 'thirdweb/chains';
+import { polygon, polygonAmoy } from 'thirdweb/chains';
+import { inAppWallet } from "thirdweb/wallets";
 
 // src/config.ts
 export const config = {
@@ -11,11 +12,19 @@ export const config = {
 export const erc20contract = getContract({
       client,
       address: config.erc20ContractAddress,
-      chain: polygon,
+      chain: polygonAmoy,
     });
     
 export const stakingContract = getContract({
       client,
       address: config.stakeContractAddress,
-      chain: polygon,
+      chain: polygonAmoy,
     });
+    export const wallets = [
+      inAppWallet({
+        smartAccount: {
+          chain: polygonAmoy,
+          sponsorGas: true,
+        },
+      }),
+    ];
