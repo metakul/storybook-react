@@ -1,4 +1,3 @@
-// LoadingButtonWrapper.tsx
 import React, { useState } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
 import { getColors } from '../../layout/Theme/themes';
@@ -59,7 +58,7 @@ const LoadingButtonWrapper: React.FC<LoadingButtonWrapperProps> = ({
       {isLoading ? (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress size={20} sx={{ color: colors.grey[100], mr: 1 }} />
-          Submitting transaction...
+          Submiting trx ...
         </Box>
       ) : children}
     </Button>
