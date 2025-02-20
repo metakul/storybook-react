@@ -52,7 +52,11 @@ const StakingPage = () => {
     method: "function getClaimableRewards(address) view returns (uint256 earnedAmount)",
     params: [account?.address || "0x"],
   });
-  console.log("userLockedAmountFor7Days",userLockedAmount,userEarnedAmount);
+  const { data: maxAndTotalStakeInfo, isLoading: isMAxAndTotalSupplyLoading } = useReadContract({
+    contract: stakingContract,
+    method:  "function getMaxStakeInfo(uint256 _duration) view returns (uint256 maxStake, uint256 totalStake)",
+    params: [BigInt(selectedDuration)],
+  });
   
 
 
@@ -224,9 +228,26 @@ const StakingPage = () => {
                 <Typography>{selectedDuration} Days</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Extends lock on registration:</Typography>
-                <Typography>Yes</Typography>
+                <Typography>Max Staking Threshhold:</Typography>
+                {isMAxAndTotalSupplyLoading
+                    ? "..."
+                
+                      : maxAndTotalStakeInfo !== undefined
+                        ? `${(Number(maxAndTotalStakeInfo[0]) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                        : "Loading..."
+                      }
               </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography>Total Staking Reached:</Typography>
+                {isMAxAndTotalSupplyLoading
+                    ? "..."
+                
+                      : maxAndTotalStakeInfo !== undefined
+                        ? `${(Number(maxAndTotalStakeInfo[1]) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                        : "Loading..."
+                      }
+              </Box>
+           
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography>Your Locked Amount:</Typography>
                 <Typography>
