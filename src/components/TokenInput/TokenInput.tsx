@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress } from '@mui/material';
-import LoadingButtonWrapper from './LoadingButtonWrapper';
+import LoadingButtonWrapper from '../../Pages/StakingPage/LoadingButtonWrapper';
 
 interface TokenInputProps {
   value: number;

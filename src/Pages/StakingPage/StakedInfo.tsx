@@ -155,7 +155,6 @@ const StakeDetailRow: React.FC<StakeDetailRowProps> = ({ label, value }) => (
 const StakedInfo: React.FC = () => {
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
-  const [processingStakeId, setProcessingStakeId] = useState<number | null>(null);
   const [toast, setToast] = useState<{
     message: string;
     type: 'warning' | 'success' | 'error';
@@ -213,7 +212,6 @@ const StakedInfo: React.FC = () => {
 
   const processWithdrawal = async (stakeId: number) => {
     try {
-      setProcessingStakeId(stakeId);
 
       const withdrawTx = prepareContractCall({
         contract: stakingContract,
@@ -236,7 +234,6 @@ const StakedInfo: React.FC = () => {
 
       showToast(errorMessage, "error");
     } finally {
-      setProcessingStakeId(null);
     }
   };
 
@@ -256,7 +253,6 @@ const StakedInfo: React.FC = () => {
         () => processWithdrawal(stakeId),
         () => {
           hideToast();
-          setProcessingStakeId(null);
         }
       );
       return;
