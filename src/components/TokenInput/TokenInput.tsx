@@ -44,19 +44,20 @@ export const TokenInput: React.FC<TokenInputProps> = ({
         ) : (
           
           <input
-            type="number"
-            value={value}
-            onChange={(e) => onChange && onChange(parseFloat(e.target.value) || 0)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'white',
-              width: '100%',
-              outline: 'none',
-              fontSize: '16px'
-            }}
-            placeholder="0"
-          />
+          type="number"
+          value={value}
+          onChange={onChange ? (e) => onChange(parseFloat(e.target.value) || 0) : undefined}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            width: '100%',
+            outline: 'none',
+            fontSize: '16px',
+            appearance: onChange ? 'auto' : 'textfield' // Hide arrows if no onChange
+          }}
+          placeholder="0"
+        />
         )}
         {onMaxClick &&
         <Button

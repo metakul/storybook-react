@@ -7,7 +7,7 @@ import { getColors } from '../../layout/Theme/themes';
 import { StakingMetrics } from './StakingMetrics';
 import { DurationSelector } from './DurationSelector';
 import { StakingInfo } from './StakingInfo';
-import { TokenInput } from './TokenInput';
+import { TokenInput } from '../../components/TokenInput/TokenInput';
 import StakedInfo from './StakedInfo';
 
 interface StakingDuration {

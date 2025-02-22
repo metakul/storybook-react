@@ -7,6 +7,7 @@ import { inAppWallet } from "thirdweb/wallets";
 export const config = {
     erc20ContractAddress: import.meta.env.VITE_ERC20_CONTRACT_ADDRESS,
     stakeContractAddress: import.meta.env.VITE_STAKE_CONTRACT_ADDRESS,
+    dexContractAddress: import.meta.env.VITE_DEX_CONTRACT_ADDRESS,
   };
   
 export const erc20contract = getContract({
@@ -18,6 +19,12 @@ export const erc20contract = getContract({
 export const stakingContract = getContract({
       client,
       address: config.stakeContractAddress,
+      chain: polygonAmoy,
+    });
+
+export const dexContract = getContract({
+      client,
+      address: config.dexContractAddress,
       chain: polygonAmoy,
     });
     export const wallets = [
