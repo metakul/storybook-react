@@ -42,8 +42,6 @@ const StakingPage: React.FC = () => {
   const [stakeAmount, setStakeAmount] = useState<number>(0);
   const [approvalAmount, setApprovalAmount] = useState<number>(0);
   const [selectedDuration, setSelectedDuration] = useState<number>(30);
-  const [isApproving, setIsApproving] = useState<boolean>(false);
-  const [isStaking, setIsStaking] = useState<boolean>(false);
 
   // Contract read hooks
   const { data: erc20Balance, isLoading: isBalanceLoading } = useReadContract({
@@ -132,7 +130,6 @@ const StakingPage: React.FC = () => {
     }
 
     try {
-      setIsApproving(true);
       const approveTx = prepareContractCall({
         contract: erc20contract,
         method: "function approve(address spender, uint256 amount)",
@@ -147,7 +144,6 @@ const StakingPage: React.FC = () => {
       console.error("Approval failed:", error);
       alert("Approval failed. Please try again.");
     } finally {
-      setIsApproving(false);
     }
   };
 
@@ -170,23 +166,21 @@ const StakingPage: React.FC = () => {
     }
 
     try {
-      
-      setIsStaking(true);
+
       const stakeTx = prepareContractCall({
         contract: stakingContract,
         method: "function stake(uint256 _amount, uint256 _duration)",
         params: [amountInWei, BigInt(selectedDuration)],
       });
-      
+
       await sendTransaction(stakeTx);
-      
+
       // Simulate network delay for loading state
       await new Promise(resolve => setTimeout(resolve, 5000));
     } catch (error) {
       console.error("Staking failed:", error);
       alert("Staking failed. Please try again.");
     } finally {
-      setIsStaking(false);
     }
   };
 
@@ -221,7 +215,7 @@ const StakingPage: React.FC = () => {
             }}>
               Participate IGO Stake
             </Typography>
-            
+
             <Typography variant="h5" sx={{ mb: 3 }}>
               My Wallet Balance: {isBalanceLoading
                 ? "Loading..."
@@ -230,7 +224,7 @@ const StakingPage: React.FC = () => {
                   : "Connect Your wallet to see balance"}
             </Typography>
 
-            <DurationSelector 
+            <DurationSelector
               selectedDuration={selectedDuration}
               onDurationChange={setSelectedDuration}
               durations={stakingDurations}
@@ -267,18 +261,18 @@ const StakingPage: React.FC = () => {
                 APY*
               </Typography>
             </Box>
-              <Box  sx={{
+            <Box sx={{
               display: 'flex',
               justifyContent: 'end',
               alignItems: 'center',
               mb: 2,
               position: 'relative'
             }}>
-                Not Enough {erc20Symbol}. 
-                <Button onClick={() => navigate("/swap")}>
+              Not Enough {erc20Symbol}.
+              <Button onClick={() => navigate("/swap")}>
                 Buy Now
-                </Button>
-              </Box>
+              </Button>
+            </Box>
             <TokenInput
               value={approvalAmount}
               onChange={setApprovalAmount}
@@ -286,7 +280,6 @@ const StakingPage: React.FC = () => {
               actionLabel="Approve"
               onAction={handleApprove}
               disabled={!account || approvalAmount <= 0}
-              isLoading={isApproving}
             />
 
             <Box>
@@ -304,7 +297,6 @@ const StakingPage: React.FC = () => {
               actionLabel="Stake"
               onAction={handleStake}
               disabled={!account || stakeAmount <= 0}
-              isLoading={isStaking}
             />
 
             <Typography sx={{

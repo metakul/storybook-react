@@ -8,20 +8,23 @@ interface LoadingButtonWrapperProps {
   disabled?: boolean;
 }
 
-const LoadingButtonWrapper: React.FC<LoadingButtonWrapperProps> = ({ 
-  onClick, 
-  children, 
-  disabled = false 
+const LoadingButtonWrapper: React.FC<LoadingButtonWrapperProps> = ({
+  onClick,
+  children,
+  disabled = false
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const colors = getColors();
 
   const handleClick = async () => {
     setIsLoading(true);
-    
+
     try {
-      // Add random delay between 4-6 seconds
       onClick && await onClick();
+      // Add random delay between 4-6 seconds after submitting trx onChain
+      const delay = Math.floor(Math.random() * (6000 - 4000) + 4000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+
     } finally {
       setIsLoading(false);
     }

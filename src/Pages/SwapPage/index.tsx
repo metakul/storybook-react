@@ -19,7 +19,6 @@ const StakingPage: React.FC = () => {
 
   const [usdtAmount, setUsdtAmount] = useState<number>(0);
   const [thaiAmount, setThaiAmount] = useState<number>(0);
-  const [isSwapping, setIsSwapping] = useState<boolean>(false);
 
   const { data: usdtBalance, isLoading: isBalanceLoading } = useReadContract({
     contract: usdtContract,
@@ -66,28 +65,16 @@ const StakingPage: React.FC = () => {
     }
 
     try {
-      setIsSwapping(true);
-      
+
       // Step 1: Approve the DEX contract to spend USDT
       const approveTx = prepareContractCall({
-       contract: usdtContract,
+        contract: usdtContract,
         method: "function approve(address spender, uint256 amount)",
         params: [dexContract.address, BigInt("12300000000000000")],
       });
       await sendTransaction(approveTx);
       console.log("Approval successful");
 
-
-      const approveTx1 = prepareContractCall({
-       contract: erc20contract,
-        method: "function approve(address spender, uint256 amount)",
-        params: [dexContract.address, amountInWei],
-      });
-      await sendTransaction(approveTx1);
-      console.log("Approval successful");
-
-
-      
       // Step 2: Swap USDT for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
@@ -95,15 +82,14 @@ const StakingPage: React.FC = () => {
         params: [usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18)],
       });
       console.log(usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18));
-      
+
       await sendTransaction(swapTx);
-      console.log("Swap successful",swapTx);
+      console.log("Swap successful", swapTx);
 
     } catch (error) {
       console.error("Swap failed:", error);
       alert("Swap failed. Please try again.");
     } finally {
-      setIsSwapping(false);
     }
   };
 

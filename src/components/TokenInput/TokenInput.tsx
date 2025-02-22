@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import LoadingButtonWrapper from '../../Pages/StakingPage/LoadingButtonWrapper';
 
 interface TokenInputProps {
@@ -8,7 +8,6 @@ interface TokenInputProps {
   actionLabel?: string;
   onAction?: () => Promise<void>; // Updated to return a Promise
   disabled: boolean;
-  isLoading?: boolean;
 }
 
 export const TokenInput: React.FC<TokenInputProps> = ({ 
@@ -18,7 +17,6 @@ export const TokenInput: React.FC<TokenInputProps> = ({
   actionLabel, 
   onAction, 
   disabled,
-  isLoading 
 }) => {
   return (
     <Box sx={{
@@ -39,9 +37,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
         backgroundColor: 'rgba(15, 23, 42, 0.6)',
         boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.2)'
       }}>
-        {isLoading ? (
-          <CircularProgress size={20} sx={{ color: 'white' }} />
-        ) : (
+      
           
           <input
           type="number"
@@ -58,7 +54,6 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           }}
           placeholder="0"
         />
-        )}
         {onMaxClick &&
         <Button
         sx={{
@@ -69,13 +64,12 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           }
         }}
         onClick={onMaxClick}
-        disabled={isLoading}
         >
           Max
         </Button>
         }
       </Box>
-          <LoadingButtonWrapper onClick={onAction} disabled={disabled || isLoading}>
+          <LoadingButtonWrapper onClick={onAction} disabled={disabled}>
             {actionLabel}
           </LoadingButtonWrapper>
     </Box>
