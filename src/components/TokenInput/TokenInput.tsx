@@ -3,10 +3,10 @@ import LoadingButtonWrapper from '../../Pages/StakingPage/LoadingButtonWrapper';
 
 interface TokenInputProps {
   value: number;
-  onChange: (value: number) => void;
-  onMaxClick: () => void;
-  actionLabel: string;
-  onAction: () => Promise<void>; // Updated to return a Promise
+  onChange?: (value: number) => void;
+  onMaxClick?: () => void;
+  actionLabel?: string;
+  onAction?: () => Promise<void>; // Updated to return a Promise
   disabled: boolean;
   isLoading: boolean;
 }
@@ -42,10 +42,11 @@ export const TokenInput: React.FC<TokenInputProps> = ({
         {isLoading ? (
           <CircularProgress size={20} sx={{ color: 'white' }} />
         ) : (
+          
           <input
             type="number"
             value={value}
-            onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+            onChange={(e) => onChange && onChange(parseFloat(e.target.value) || 0)}
             style={{
               background: 'transparent',
               border: 'none',
@@ -57,24 +58,27 @@ export const TokenInput: React.FC<TokenInputProps> = ({
             placeholder="0"
           />
         )}
+        {onMaxClick &&
         <Button
-          sx={{
-            color: 'white',
-            minWidth: 'auto',
-            '&:hover': {
-              backgroundColor: 'rgba(30, 41, 59, 0.3)'
-            }
-          }}
-          onClick={onMaxClick}
-          disabled={isLoading}
+        sx={{
+          color: 'white',
+          minWidth: 'auto',
+          '&:hover': {
+            backgroundColor: 'rgba(30, 41, 59, 0.3)'
+          }
+        }}
+        onClick={onMaxClick}
+        disabled={isLoading}
         >
           Max
         </Button>
+        }
       </Box>
-
-      <LoadingButtonWrapper onClick={onAction} disabled={disabled || isLoading}>
-        {actionLabel}
-      </LoadingButtonWrapper>
+    {onAction && 
+          <LoadingButtonWrapper onClick={onAction} disabled={disabled || isLoading}>
+            {actionLabel}
+          </LoadingButtonWrapper>
+    }
     </Box>
   );
 };
