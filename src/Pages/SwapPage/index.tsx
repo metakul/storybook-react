@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
 import { config, erc20contract, dexContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import { getColors } from '../../layout/Theme/themes';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
+import { useNavigate } from 'react-router-dom';
 
 const FIXED_EXCHANGE_RATE = 100; // Example: 1 BUSD = 100 THAI
 
 const StakingPage: React.FC = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
-
+  const navigate = useNavigate()
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
 
@@ -74,7 +75,7 @@ const StakingPage: React.FC = () => {
     }
   };
 
-  
+
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <Box sx={{
@@ -114,10 +115,10 @@ const StakingPage: React.FC = () => {
 
             <Box sx={{ m: 2 }}>
               {thaiAmount
-                ? "You will Receive THBCN approx..."
+                ? `You will Receive ${erc20Symbol} approx...`
                 : ""}
             </Box>
-            
+
             {/* Second Token Input: THAI */}
             <TokenInput
               value={thaiAmount}
@@ -132,6 +133,18 @@ const StakingPage: React.FC = () => {
 
           </CardContent>
         </Card>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mt: 2,
+        position: 'relative'
+      }}>
+        Want To Earn More from {erc20Symbol}.
+        <Button onClick={() => navigate("/staking")}>
+          Stake Now
+        </Button>
       </Box>
     </Container>
   );
