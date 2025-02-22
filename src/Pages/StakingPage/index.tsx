@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Alert, Link, Button } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
 import { config, erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
@@ -9,6 +9,7 @@ import { DurationSelector } from './DurationSelector';
 import { StakingInfo } from './StakingInfo';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import StakedInfo from './StakedInfo';
+import { useNavigate } from 'react-router-dom';
 
 interface StakingDuration {
   value: number;
@@ -31,6 +32,7 @@ const StakingPage: React.FC = () => {
   // Theme and responsive hooks
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const navigate = useNavigate()
 
   // Blockchain hooks
   const account = useActiveAccount();
@@ -248,7 +250,7 @@ const StakingPage: React.FC = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              mb: 4,
+              mb: 2,
               position: 'relative'
             }}>
               <Typography sx={{
@@ -264,7 +266,18 @@ const StakingPage: React.FC = () => {
                 APY*
               </Typography>
             </Box>
-
+              <Box  sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              alignItems: 'center',
+              mb: 2,
+              position: 'relative'
+            }}>
+                Not Enough {erc20Symbol}. 
+                <Button onClick={() => navigate("/swap")}>
+                Buy Now
+                </Button>
+              </Box>
             <TokenInput
               value={approvalAmount}
               onChange={setApprovalAmount}
