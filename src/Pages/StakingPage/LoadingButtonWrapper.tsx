@@ -3,7 +3,7 @@ import { Button, Box, CircularProgress } from '@mui/material';
 import { getColors } from '../../layout/Theme/themes';
 
 interface LoadingButtonWrapperProps {
-  onClick: () => Promise<void>;
+  onClick?: () => Promise<void>;
   children: React.ReactNode;
   disabled?: boolean;
 }
@@ -21,10 +21,7 @@ const LoadingButtonWrapper: React.FC<LoadingButtonWrapperProps> = ({
     
     try {
       // Add random delay between 4-6 seconds
-      const delay = Math.floor(Math.random() * (6000 - 4000) + 4000);
-      await new Promise(resolve => setTimeout(resolve, delay));
-      
-      await onClick();
+      onClick && await onClick();
     } finally {
       setIsLoading(false);
     }

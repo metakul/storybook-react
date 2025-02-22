@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Alert, Link, Button } from '@mui/material';
+import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
 import { config, erc20contract, stakingContract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
@@ -170,6 +170,7 @@ const StakingPage: React.FC = () => {
     }
 
     try {
+      
       setIsStaking(true);
       const stakeTx = prepareContractCall({
         contract: stakingContract,
@@ -222,7 +223,7 @@ const StakingPage: React.FC = () => {
             </Typography>
             
             <Typography variant="h5" sx={{ mb: 3 }}>
-              Wallet Balance: {isBalanceLoading
+              My Wallet Balance: {isBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
                   ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`

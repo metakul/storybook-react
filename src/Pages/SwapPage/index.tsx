@@ -1,77 +1,109 @@
 import { useState, useEffect } from 'react';
-import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button } from '@mui/material';
+import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button, Alert } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
-import { config, erc20contract, dexContract } from '../../config';
+import { config, usdtContract, dexContract, erc20contract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import { getColors } from '../../layout/Theme/themes';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 import { useNavigate } from 'react-router-dom';
 
-const FIXED_EXCHANGE_RATE = 100; // Example: 1 BUSD = 100 THAI
+const FIXED_EXCHANGE_RATE = 100; // Example: 1 USDT = 100 THAI
 
 const StakingPage: React.FC = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
 
-  const [busdAmount, setBusdAmount] = useState<number>(0);
+  const [usdtAmount, setUsdtAmount] = useState<number>(0);
   const [thaiAmount, setThaiAmount] = useState<number>(0);
-  const [isApproving, setIsApproving] = useState<boolean>(false);
+  const [isSwapping, setIsSwapping] = useState<boolean>(false);
 
-  const { data: erc20Balance, isLoading: isBalanceLoading } = useReadContract({
+  const { data: usdtBalance, isLoading: isBalanceLoading } = useReadContract({
+    contract: usdtContract,
+    method: "function balanceOf(address owner) returns (uint256)",
+    params: [account?.address || "0x"],
+  });
+  const { data: erc20Balance } = useReadContract({
     contract: erc20contract,
     method: "function balanceOf(address owner) returns (uint256)",
     params: [account?.address || "0x"],
   });
 
+  const { data: usdtSymbol } = useReadContract({
+    contract: usdtContract,
+    method: "function symbol() returns (string)",
+    params: [],
+  });
   const { data: erc20Symbol } = useReadContract({
     contract: erc20contract,
     method: "function symbol() returns (string)",
     params: [],
   });
 
-  // Sync Thai token input when BUSD input changes
   useEffect(() => {
-    setThaiAmount(busdAmount * FIXED_EXCHANGE_RATE);
-  }, [busdAmount]);
+    setThaiAmount(usdtAmount * FIXED_EXCHANGE_RATE);
+  }, [usdtAmount]);
 
-  const handleApprove = async (): Promise<void> => {
+  const handleSwap = async (): Promise<void> => {
     if (!account) {
       alert("Please connect your wallet first.");
       return;
     }
 
-    if (busdAmount <= 0) {
+    if (usdtAmount <= 0) {
       alert("Amount must be greater than 0.");
       return;
     }
 
-    const amountInWei = BigInt(Math.floor(busdAmount * 1e18));
+    const amountInWei = BigInt(Math.floor(usdtAmount * 1e18));
 
-    if (erc20Balance === undefined || amountInWei > erc20Balance) {
+    if (usdtBalance === undefined || amountInWei > usdtBalance) {
       alert("Insufficient token balance.");
       return;
     }
 
     try {
-      setIsApproving(true);
+      setIsSwapping(true);
+      
+      // Step 1: Approve the DEX contract to spend USDT
       const approveTx = prepareContractCall({
-        contract: erc20contract,
+       contract: usdtContract,
+        method: "function approve(address spender, uint256 amount)",
+        params: [dexContract.address, BigInt("12300000000000000")],
+      });
+      await sendTransaction(approveTx);
+      console.log("Approval successful");
+
+
+      const approveTx1 = prepareContractCall({
+       contract: erc20contract,
         method: "function approve(address spender, uint256 amount)",
         params: [dexContract.address, amountInWei],
       });
-      await sendTransaction(approveTx);
-      console.log("Approval successful:", approveTx);
+      await sendTransaction(approveTx1);
+      console.log("Approval successful");
 
-      await new Promise(resolve => setTimeout(resolve, 5000));
+
+      
+      // Step 2: Swap USDT for THAI
+      const swapTx = prepareContractCall({
+        contract: dexContract,
+        method: "function swapNow(address tokenIn, uint256 amountIn, address tokenOut, uint256 amountOut)",
+        params: [usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18)],
+      });
+      console.log(usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18));
+      
+      await sendTransaction(swapTx);
+      console.log("Swap successful",swapTx);
+
     } catch (error) {
-      console.error("Approval failed:", error);
-      alert("Approval failed. Please try again.");
+      console.error("Swap failed:", error);
+      alert("Swap failed. Please try again.");
     } finally {
-      setIsApproving(false);
+      setIsSwapping(false);
     }
   };
 
@@ -95,22 +127,27 @@ const StakingPage: React.FC = () => {
             </Typography>
 
             <Typography variant="h5" sx={{ mb: 3 }}>
-              Wallet Balance: {isBalanceLoading
+              My Wallet Balance: {isBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
                   ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                   : "Connect Your wallet to see balance"}
             </Typography>
+            <Typography variant="h5" sx={{ mb: 3 }}>
+              My Wallet Balance: {isBalanceLoading
+                ? "Loading..."
+                : usdtBalance !== undefined
+                  ? `${(Number(usdtBalance) / 1e18).toLocaleString()} ${usdtSymbol || 'BUSD'}`
+                  : "Connect Your wallet to see balance"}
+            </Typography>
 
             {/* First Token Input: BUSD */}
             <TokenInput
-              value={busdAmount}
-              onChange={setBusdAmount}
-              onMaxClick={() => setBusdAmount(Number(erc20Balance || 0n) / 1e18)}
-              actionLabel="BUSD"
-              onAction={handleApprove}
+              value={usdtAmount}
+              onChange={setUsdtAmount}
+              onMaxClick={() => setUsdtAmount(Number(erc20Balance || 0n) / 1e18)}
+              actionLabel="USDT"
               disabled={true}
-              isLoading={isApproving}
             />
 
             <Box sx={{ m: 2 }}>
@@ -123,18 +160,16 @@ const StakingPage: React.FC = () => {
             <TokenInput
               value={thaiAmount}
               disabled={true}
-              isLoading={isApproving}
               actionLabel="THAI"
-              onAction={handleApprove}
             />
-            <LoadingButtonWrapper onClick={handleApprove} disabled={false}>
+            <LoadingButtonWrapper onClick={handleSwap} disabled={false}>
               Swap
             </LoadingButtonWrapper>
 
           </CardContent>
         </Card>
       </Box>
-      <Box sx={{
+      <Alert sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -145,7 +180,7 @@ const StakingPage: React.FC = () => {
         <Button onClick={() => navigate("/staking")}>
           Stake Now
         </Button>
-      </Box>
+      </Alert>
     </Container>
   );
 };

@@ -8,7 +8,7 @@ interface TokenInputProps {
   actionLabel?: string;
   onAction?: () => Promise<void>; // Updated to return a Promise
   disabled: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export const TokenInput: React.FC<TokenInputProps> = ({ 
@@ -75,11 +75,9 @@ export const TokenInput: React.FC<TokenInputProps> = ({
         </Button>
         }
       </Box>
-    {onAction && 
           <LoadingButtonWrapper onClick={onAction} disabled={disabled || isLoading}>
             {actionLabel}
           </LoadingButtonWrapper>
-    }
     </Box>
   );
 };
