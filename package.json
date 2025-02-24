@@ -17,8 +17,10 @@
     "@reduxjs/toolkit": "^2.5.1",
     "firebase": "^11.3.1",
     "framer-motion": "^12.4.1",
+    "lucide-react": "^0.475.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.1.5",
     "thirdweb": "^5.88.5"
   },
