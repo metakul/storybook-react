@@ -104,7 +104,7 @@ interface RoadmapItemProps {
                     boxShadow: "0 0 4px rgba(0, 0, 0, 0.2)"
                   }}
                 >
-                  {title} ({quarter} {year})
+                  {title} <br/> ({quarter} {year})
                 </Typography>
                 <PercentageHighlight>{percentage}%</PercentageHighlight>
               </Box>

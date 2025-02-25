@@ -17,19 +17,9 @@ const HowItWorks: React.FC = () => {
               <Box 
                 sx={{ 
                   mt: 12, 
-                  pt: 8, 
                   textAlign: "center",
                   position: "relative",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    top: 0,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 120,
-                    height: 2,
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  }
+                
                 }}
               >
                 <Typography
@@ -81,7 +71,6 @@ const HowItWorks: React.FC = () => {
                         <Avatar
                           sx={{ 
                             bgcolor: "primary.main", 
-                            color: "black", 
                             fontWeight: "bold",
                             mr: 2,
                             boxShadow: "0 0 10px rgba(0, 255, 157, 0.4)"

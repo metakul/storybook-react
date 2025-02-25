@@ -8,6 +8,9 @@ import {
     Paper, 
     Avatar,
     styled,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
   } from "@mui/material";
 import { getColors } from "../../layout/Theme/themes";
 
@@ -56,4 +59,34 @@ export const NumberIcon = styled(Avatar)(({ theme }) => ({
   fontSize: "0.75rem",
   fontWeight: 700,
   boxShadow: "0 0 8px rgba(0, 255, 157, 0.4)",
+}));
+
+
+// faq Custom styled components
+export const StyledAccordion = styled(Accordion)(({  }) => ({
+  boxShadow: 'none',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+  '&:before': {
+    display: 'none',
+  },
+  '&.Mui-expanded': {
+    margin: 0,
+  }
+}));
+
+export const StyledAccordionSummary = styled(AccordionSummary)(({  }) => ({
+  padding: '24px 14px',
+  '& .MuiAccordionSummary-content': {
+    margin: 0,
+  },
+  '& .MuiSvgIcon-root': {
+    color: '#F2C94C',
+    fontSize: '1.5rem',
+  },
+}));
+
+export const StyledAccordionDetails = styled(AccordionDetails)(({  }) => ({
+  borderTop: 'none',
+  padding: '0px 14px 24px 14px ', 
+
 }));

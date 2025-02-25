@@ -2,83 +2,10 @@ import React, { useState } from 'react';
 import {
   Box,
   Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Container,
-  Button,
   Grid,
-  createTheme,
-  ThemeProvider,
-  styled
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-// Custom styled components
-const StyledAccordion = styled(Accordion)(({  }) => ({
-  backgroundColor: 'transparent',
-  boxShadow: 'none',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-  '&:before': {
-    display: 'none',
-  },
-  '&.Mui-expanded': {
-    margin: 0,
-  }
-}));
-
-const StyledAccordionSummary = styled(AccordionSummary)(({  }) => ({
-  padding: '24px 0',
-  '& .MuiAccordionSummary-content': {
-    margin: 0,
-  },
-  '& .MuiSvgIcon-root': {
-    color: '#F2C94C',
-    fontSize: '1.5rem',
-  },
-}));
-
-const StyledAccordionDetails = styled(AccordionDetails)(({  }) => ({
-  padding: '0 0 24px 0',
-  borderTop: 'none',
-}));
-
-// Create custom theme
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#F2C94C',
-    },
-    background: {
-      default: '#0D0D0D',
-      paper: '#0D0D0D',
-    },
-    text: {
-      primary: '#FFFFFF',
-      secondary: 'rgba(255, 255, 255, 0.7)',
-    },
-  },
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h2: {
-      fontWeight: 700,
-      fontSize: '2.5rem',
-      '@media (max-width:600px)': {
-        fontSize: '2rem',
-      },
-    },
-    h5: {
-      fontWeight: 600,
-      fontSize: '1.2rem',
-      color: '#FFFFFF',
-    },
-    body1: {
-      fontSize: '1rem',
-      color: 'rgba(255, 255, 255, 0.7)',
-    },
-  },
-});
+import { StyledAccordion, StyledAccordionDetails, StyledAccordionSummary } from './CustomMuiStyle';
 
 // FAQ data
 const faqData = [
@@ -114,11 +41,8 @@ const FAQSection = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Box
         sx={{
-          backgroundColor: '#0D0D0D',
-          backgroundImage: 'url(/dogecoin-bg.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           minHeight: '100vh',
@@ -126,14 +50,12 @@ const FAQSection = () => {
           position: 'relative',
         }}
       >
-        <Container maxWidth="lg">
           <Box textAlign="center" mb={8}>
             <Typography
               variant="h2"
               component="h1"
               gutterBottom
               sx={{
-                color: '#FFFFFF',
                 position: 'relative',
                 zIndex: 2,
                 fontWeight: 700,
@@ -166,29 +88,8 @@ const FAQSection = () => {
             </Grid>
           </Grid>
 
-          <Box mt={6} display="flex" justifyContent="center">
-            <Button 
-              variant="contained" 
-              color="primary"
-              size="large"
-              sx={{ 
-                borderRadius: '50px',
-                px: 4,
-                py: 1.5,
-                fontWeight: 'bold',
-                backgroundColor: '#F2C94C',
-                color: '#0D0D0D',
-                '&:hover': {
-                  backgroundColor: '#D4AF37',
-                }
-              }}
-            >
-              CONNECT WALLET
-            </Button>
-          </Box>
-        </Container>
+       
       </Box>
-    </ThemeProvider>
   );
 };
 
