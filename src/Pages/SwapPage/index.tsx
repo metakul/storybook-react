@@ -7,8 +7,9 @@ import { getColors } from '../../layout/Theme/themes';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 import { useNavigate } from 'react-router-dom';
+import SwapDialog from './SwapDialog';
 
-const FIXED_EXCHANGE_RATE = 100; // Example: 1 USDT = 100 THAI
+const FIXED_EXCHANGE_RATE = 100; 
 
 const StakingPage: React.FC = () => {
   const theme = useTheme();
@@ -19,7 +20,16 @@ const StakingPage: React.FC = () => {
 
   const [usdtAmount, setUsdtAmount] = useState<number>(0);
   const [thaiAmount, setThaiAmount] = useState<number>(0);
+  const [openSwapDialog, setOpenSwapDialog] = useState(false);
 
+  const handleSwapClick = () => {
+    setOpenSwapDialog(true);
+  };
+
+  const handleSwapConfirm = async () => {
+    setOpenSwapDialog(false);
+    await handleSwap();
+  };
   const { data: usdtBalance, isLoading: isBalanceLoading } = useReadContract({
     contract: usdtContract,
     method: "function balanceOf(address owner) returns (uint256)",
@@ -149,8 +159,18 @@ const StakingPage: React.FC = () => {
               actionLabel="THAI"
             />
             <LoadingButtonWrapper onClick={handleSwap} disabled={false}>
-              Swap
+            Review swap
             </LoadingButtonWrapper>
+            <SwapDialog
+        open={openSwapDialog}
+        onClose={() => setOpenSwapDialog(false)}
+        onConfirm={handleSwapConfirm}
+        fromAmount={usdtAmount}
+        toAmount={thaiAmount}
+        fromSymbol={usdtSymbol || 'USDT'}
+        toSymbol={erc20Symbol || 'THAI'}
+        exchangeRate={FIXED_EXCHANGE_RATE}
+      />
 
           </CardContent>
         </Card>
