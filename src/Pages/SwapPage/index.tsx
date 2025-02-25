@@ -9,7 +9,7 @@ import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 import { useNavigate } from 'react-router-dom';
 import SwapDialog from './SwapDialog';
 
-const FIXED_EXCHANGE_RATE = 100; 
+const FIXED_EXCHANGE_RATE = 100;
 
 const StakingPage: React.FC = () => {
   const theme = useTheme();
@@ -27,8 +27,8 @@ const StakingPage: React.FC = () => {
   };
 
   const handleSwapConfirm = async () => {
-    setOpenSwapDialog(false);
     await handleSwap();
+    // setOpenSwapDialog(false);
   };
   const { data: usdtBalance, isLoading: isBalanceLoading } = useReadContract({
     contract: usdtContract,
@@ -51,10 +51,55 @@ const StakingPage: React.FC = () => {
     method: "function symbol() returns (string)",
     params: [],
   });
+  const { data: approvedFromToken } = useReadContract({
+    contract: usdtContract,
+    method: "function allowance(address owner, address spender) view returns (uint256)",
+    params: [account?.address || "0x", config.dexContractAddress],
+  });
 
   useEffect(() => {
     setThaiAmount(usdtAmount * FIXED_EXCHANGE_RATE);
   }, [usdtAmount]);
+
+  const handleApprove = async (): Promise<void> => {
+    if (!account) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+
+    if (usdtAmount <= 0) {
+      alert("Amount must be greater than 0.");
+      return;
+    }
+
+    const amountInWei = BigInt(Math.floor(usdtAmount * 1e18));
+
+    if (usdtBalance === undefined || amountInWei > usdtBalance) {
+      alert("Insufficient token balance.");
+      return;
+    }
+
+    try {
+
+      if (approvedFromToken && approvedFromToken >= amountInWei) {
+        handleSwapClick()
+      }
+      else {
+        const approveTx = prepareContractCall({
+          contract: usdtContract,
+          method: "function approve(address spender, uint256 amount)",
+          params: [dexContract.address, amountInWei],
+        });
+        await sendTransaction(approveTx);
+        console.log("Approval successful:", approveTx);
+        handleSwapClick()
+      }
+    } catch (error) {
+      console.error("Approval failed:", error);
+      alert("Approval failed. Please try again.");
+    } finally {
+    }
+  };
 
   const handleSwap = async (): Promise<void> => {
     if (!account) {
@@ -76,23 +121,12 @@ const StakingPage: React.FC = () => {
 
     try {
 
-      // Step 1: Approve the DEX contract to spend USDT
-      const approveTx = prepareContractCall({
-        contract: usdtContract,
-        method: "function approve(address spender, uint256 amount)",
-        params: [dexContract.address, BigInt("12300000000000000")],
-      });
-      await sendTransaction(approveTx);
-      console.log("Approval successful");
-
-      // Step 2: Swap USDT for THAI
+      //  Swap USDT for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
         method: "function swapNow(address tokenIn, uint256 amountIn, address tokenOut, uint256 amountOut)",
         params: [usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18)],
       });
-      console.log(usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18));
-
       await sendTransaction(swapTx);
       console.log("Swap successful", swapTx);
 
@@ -141,7 +175,7 @@ const StakingPage: React.FC = () => {
             <TokenInput
               value={usdtAmount}
               onChange={setUsdtAmount}
-              onMaxClick={() => setUsdtAmount(Number(erc20Balance || 0n) / 1e18)}
+              onMaxClick={() => setUsdtAmount(Number(usdtBalance || 0n) / 1e18)}
               actionLabel="USDT"
               disabled={true}
             />
@@ -158,19 +192,20 @@ const StakingPage: React.FC = () => {
               disabled={true}
               actionLabel="THAI"
             />
-            <LoadingButtonWrapper onClick={handleSwap} disabled={false}>
-            Review swap
+            <LoadingButtonWrapper onClick={handleApprove} disabled={false}>
+              Review swap
             </LoadingButtonWrapper>
             <SwapDialog
-        open={openSwapDialog}
-        onClose={() => setOpenSwapDialog(false)}
-        onConfirm={handleSwapConfirm}
-        fromAmount={usdtAmount}
-        toAmount={thaiAmount}
-        fromSymbol={usdtSymbol || 'USDT'}
-        toSymbol={erc20Symbol || 'THAI'}
-        exchangeRate={FIXED_EXCHANGE_RATE}
-      />
+              open={openSwapDialog}
+              onClose={() => setOpenSwapDialog(false)}
+              onConfirm={handleSwapConfirm}
+              approveToken={handleApprove}
+              fromAmount={usdtAmount}
+              toAmount={thaiAmount}
+              fromSymbol={usdtSymbol || 'USDT'}
+              toSymbol={erc20Symbol || 'THAI'}
+              exchangeRate={FIXED_EXCHANGE_RATE}
+            />
 
           </CardContent>
         </Card>

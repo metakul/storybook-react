@@ -11,12 +11,12 @@ export const navConfig = [
     to: "/",
   },
   {
-    text: "Staking",
+    text: "Stake",
     icon: <UpgradeIcon />,
     to: Pages.Staking,
   },
   {
-    text: "Buy & Sell",
+    text: "Swap",
     icon: <ShopTwoIcon />,
     to: Pages.Swap,
   },

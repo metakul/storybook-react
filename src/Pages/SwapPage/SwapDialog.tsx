@@ -14,11 +14,15 @@ import {
 } from '@mui/material';
 import { Settings, SwapVert, KeyboardArrowDown } from '@mui/icons-material';
 import { getColors } from '../../layout/Theme/themes';
+import { useActiveAccount, useReadContract } from 'thirdweb/react';
+import { config, erc20contract, usdtContract } from '../../config';
+import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 
 interface SwapDialogProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
+  approveToken: () => Promise<void>;
   fromAmount: number;
   toAmount: number;
   fromSymbol: string;
@@ -30,6 +34,7 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
   open,
   onClose,
   onConfirm,
+  approveToken,
   fromAmount,
   toAmount,
   fromSymbol,
@@ -37,22 +42,29 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
   exchangeRate
 }) => {
   const colors = getColors();
+  const account = useActiveAccount();
+
+  const { data: approvedFromToken, isLoading: isApprovedTokenLoading } = useReadContract({
+    contract: usdtContract,
+    method: "function allowance(address owner, address spender) view returns (uint256)",
+    params: [account?.address || "0x", config.dexContractAddress],
+  });
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: 4,
           bgcolor: colors.primary[800],
           color: colors.grey[100],
-          minWidth: '320px'
+          minWidth: '400px'
         }
       }}
     >
-      <DialogTitle sx={{ 
-        display: 'flex', 
+      <DialogTitle sx={{
+        display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         pb: 1
@@ -96,8 +108,8 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
           <Divider sx={{ bgcolor: colors.grey[700] }} />
 
           {/* Exchange Rate */}
-          <Paper 
-            sx={{ 
+          <Paper
+            sx={{
               bgcolor: colors.primary[700],
               p: 2,
               borderRadius: 2,
@@ -111,28 +123,33 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
             <Typography variant="body2" color="text.secondary">
               1 {fromSymbol} = {exchangeRate} {toSymbol}
             </Typography>
+            <Box>
+              {isApprovedTokenLoading
+                ? "..."
+                : approvedFromToken !== undefined
+                  ? `Total Approved Tokens: ${(Number(approvedFromToken) / 1e18).toLocaleString()} ${fromSymbol || 'BUSD'}`
+                  : "Connect Your wallet to see balance"}
+            </Box>
           </Paper>
         </Stack>
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button 
-          fullWidth 
-          variant="contained" 
-          onClick={onConfirm}
-          sx={{
-            bgcolor: 'error.main',
-            color: 'white',
-            '&:hover': {
-              bgcolor: 'error.dark',
-            },
-            borderRadius: 2,
-            py: 1.5
-          }}
-        >
-          Confirm swap
-        </Button>
+        {isApprovedTokenLoading ? (
+          "Loading..."
+        ) : approvedFromToken !== undefined && Number(approvedFromToken) / 1e18 >= fromAmount ? (
+          <LoadingButtonWrapper onClick={onConfirm} disabled={false}>
+            Confirm swap
+          </LoadingButtonWrapper>
+        ) : (
+          <LoadingButtonWrapper
+            onClick={approveToken}
+          >
+            Approve {fromSymbol}
+          </LoadingButtonWrapper>
+        )}
       </DialogActions>
+
     </Dialog>
   );
 };
