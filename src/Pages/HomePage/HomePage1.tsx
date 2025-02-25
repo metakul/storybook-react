@@ -9,7 +9,6 @@ const HomePage1 = () => {
       width: '100%',
       bgcolor: '#001829',
       color: 'white',
-      position: 'absolute',
       left: 0,
       right: 0,
       fontFamily: 'BakBak One, sans-serif',
@@ -75,9 +74,8 @@ const HomePage1 = () => {
                 opacity: 0,
                 animation: 'fadeInFromLeft 1.5s ease-out 0.9s forwards'
               }}>
-                Thai.Coin’s tokenomics is designed to ensure long-term growth, sustainability, and value appreciation for investors and the community.<br />
+                Thai.Coin's tokenomics is designed to ensure long-term growth, sustainability, and value appreciation for investors and the community.<br />
                 Below is a breakdown of the token allocation and how each portion will be utilized.  
-
               </Typography>
             </Box>
             
@@ -150,7 +148,14 @@ const HomePage1 = () => {
   );
 };
 
-const StatCard = ({ number, label, color }) => (
+// Define the prop types for the StatCard component
+interface StatCardProps {
+  number: string;
+  label: string;
+  color: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ number, label, color }) => (
   <Grid item xs={12} md={3}>
     <Paper sx={{ 
       bgcolor: 'black',

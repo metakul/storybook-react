@@ -65,7 +65,6 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
 
       <DialogContent>
         <Stack spacing={2}>
-          {/* Swap Details */}
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', my: 2 }}>
             <Box>
               <Typography variant="h6">{fromAmount.toLocaleString()}</Typography>

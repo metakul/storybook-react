@@ -9,7 +9,7 @@ const HomePage2 = () => {
       width: '100%',
       bgcolor: '#001829',
       color: 'white',
-      position: 'absolute',
+     
       left: 0,
       right: 0,
       fontFamily: 'BakBak One, sans-serif',
