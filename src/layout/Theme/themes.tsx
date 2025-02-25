@@ -8,6 +8,7 @@ interface ExtendedTheme extends Theme {
         primary: Record<number, string>;
         secondary: Record<number, string>;
         greenAccent: Record<number, string>;
+        yellowAccent: Record<number, string>;
         redAccent: Record<number, string>;
         blueAccent: Record<number, string>;
         backgroundUrl:string
@@ -87,6 +88,17 @@ export const tokens = (mode: string) => ({
                 800: "#2a2d64",
                 900: "#151632",
             },
+            yellowAccent: {
+                100: "#332b12",
+                200: "#665723",
+                300: "#998235",
+                400: "#ccae46",
+                500: "#FFD700", // Bright yellow
+                600: "#d4b218",
+                700: "#a78e12",
+                800: "#7a6b0c",
+                900: "#4d4706",
+            },
             backgroundUrl:"/img/gradient_dark.jpg"
         }
         : {
@@ -156,6 +168,17 @@ export const tokens = (mode: string) => ({
                 700: "#a4a9fc",
                 800: "#c3c6fd",
                 900: "#ffffff",
+            },
+            yellowAccent: {
+                100: "#fff9cc",
+                200: "#fff399",
+                300: "#ffec66",
+                400: "#ffe533",
+                500: "#FFD700", // Bright yellow
+                600: "#ccae46",
+                700: "#998235",
+                800: "#665723",
+                900: "#332b12",
             },
             backgroundUrl:"/img/gradient.jpg"
         }),

@@ -86,7 +86,10 @@ const RoadmapSection: React.FC = () => {
   }));
 
   return (
-      <GradientBackground>
+      <GradientBackground sx={{
+        background:getColors().yellowAccent[200]
+
+      }}>
         {/* Background particles */}
         {particles.map((particle, i) => (
           <Box
@@ -103,10 +106,7 @@ const RoadmapSection: React.FC = () => {
             }}
           />
         ))}
-     
-        
         <Box  sx={{ position: "relative", zIndex: 1,
-            background:getColors().primary[900]
          }}>
           {/* Title Section */}
           <motion.div

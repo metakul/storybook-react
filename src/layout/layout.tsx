@@ -12,7 +12,7 @@ import { Outlet } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 //theme
-import { ColorModeContext, useMode } from "./Theme/themes";
+import { ColorModeContext, getColors, useMode } from "./Theme/themes";
 
 export default function DashboardLayout() {
   const [theme, colorMode] = useMode();
@@ -44,9 +44,10 @@ export default function DashboardLayout() {
             component="main"
             sx={{
               flexGrow: 1,
-              mt: 10,
+              mt: 8,
               mr: "auto",
-            }}
+              background:getColors().yellowAccent[200]
+             }}
           >
             <Outlet />
           </Box>
