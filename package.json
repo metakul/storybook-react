@@ -15,13 +15,18 @@
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.2",
     "@reduxjs/toolkit": "^2.5.1",
+    "@tailwindcss/postcss": "^4.0.8",
+    "autoprefixer": "^10.4.20",
     "firebase": "^11.3.1",
     "framer-motion": "^12.4.1",
     "lucide-react": "^0.475.0",
+    "postcss": "^8.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.5.2",
+    "react-intersection-observer": "^9.15.1",
     "react-router-dom": "^7.1.5",
+    "tailwindcss": "^4.0.8",
     "thirdweb": "^5.88.5"
   },
   "devDependencies": {
