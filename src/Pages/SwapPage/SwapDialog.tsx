@@ -4,7 +4,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   Typography,
   Box,
   IconButton,
@@ -15,7 +14,7 @@ import {
 import { Settings, SwapVert, KeyboardArrowDown } from '@mui/icons-material';
 import { getColors } from '../../layout/Theme/themes';
 import { useActiveAccount, useReadContract } from 'thirdweb/react';
-import { config, erc20contract, usdtContract } from '../../config';
+import { config, usdtContract } from '../../config';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 
 interface SwapDialogProps {

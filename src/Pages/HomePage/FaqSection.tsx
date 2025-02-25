@@ -15,7 +15,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // Custom styled components
-const StyledAccordion = styled(Accordion)(({ theme }) => ({
+const StyledAccordion = styled(Accordion)(({  }) => ({
   backgroundColor: 'transparent',
   boxShadow: 'none',
   borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
@@ -27,7 +27,7 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
   }
 }));
 
-const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
+const StyledAccordionSummary = styled(AccordionSummary)(({  }) => ({
   padding: '24px 0',
   '& .MuiAccordionSummary-content': {
     margin: 0,
@@ -38,7 +38,7 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
   },
 }));
 
-const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
+const StyledAccordionDetails = styled(AccordionDetails)(({  }) => ({
   padding: '0 0 24px 0',
   borderTop: 'none',
 }));
@@ -109,6 +109,8 @@ const FAQSection = () => {
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
+    console.info(event);
+    
   };
 
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import HomePage1 from './HomePage1';
-import HomePage2 from './HomePage2';
 import RoadmapSection from './RoadmapSection';
+import HowItWorks from './HowItWorks';
 import FaqSection from './FaqSection';
 
 // Add custom CSS for animations
@@ -54,10 +54,10 @@ const HomePage: React.FC = () => {
       
       {/* Original HomePage components */}
       <HomePage1 />
-      <HomePage2 />
       
       {/* New Roadmap Section with Timeline Animation */}
       <RoadmapSection />
+      <HowItWorks/>
       
       {/* FAQ Section */}
       <FaqSection />
