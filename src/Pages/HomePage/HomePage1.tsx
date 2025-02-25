@@ -1,150 +1,48 @@
 import React from 'react';
 import { Box, Typography, Button, Grid, Paper } from '@mui/material';
 import MetaCopImage from './assets/06.png';
+import { useNavigate } from 'react-router-dom';
+import { Pages } from '../../Datatypes/enums';
 
 const HomePage1 = () => {
-  return (
-    <Box sx={{
-      minHeight: '100vh',
-      width: '100%',
-      bgcolor: '#001829',
-      color: 'white',
-      left: 0,
-      right: 0,
-      fontFamily: 'BakBak One, sans-serif',
-    }}>
-      <Box sx={{ 
-        width: '100%',
-        maxWidth: '1400px', 
-        mx: 'auto',
-        p: { xs: 2, sm: 4, md: 8 }
-      }}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          justifyContent: 'space-between',
-          alignItems: { xs: 'flex-start', md: 'center' },
-          gap: 4,
-          mb: 8
-        }}>
-          {/* Left Content */}
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            gap: 4,
-            flex: 1,
-          }}>
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 1,
-              opacity: 0,
-              animation: 'fadeInFromLeft 1.5s ease-out 0.3s forwards'
-            }}>
-              <Typography sx={{ 
-                fontSize: '1.5rem',
-                fontFamily: 'BakBak One'
-              }}>
-                ON A MISSION TO <span style={{ color: '#FFEB3B' }}>SAVE WEB3</span> 
-              </Typography>
-            </Box>
-            
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              gap: 2,
-            }}>
-              <Typography sx={{ 
-                fontSize: { xs: '2.5rem', md: '3.5rem' },
-                fontWeight: 'bold',
-                lineHeight: 1.2,
-                fontFamily: 'BakBak One',
-                opacity: 0,
-                animation: 'fadeInFromLeft 1.5s ease-out 0.6s forwards',
-              }}>
-                <span style={{ color: '#00ff9d' }}>Thai.Coin Tokenomics</span><br />
-                <span style={{ color: '#00ff9d' }}>Total Supply</span> 10,000,000 Thai.Coin Tokens  
-              </Typography>
-              
-              <Typography sx={{ 
-                fontSize: '1.25rem',
-                color: 'grey.300', 
-                maxWidth: '800px',
-                fontFamily: 'BakBak One',
-                opacity: 0,
-                animation: 'fadeInFromLeft 1.5s ease-out 0.9s forwards'
-              }}>
-                Thai.Coin's tokenomics is designed to ensure long-term growth, sustainability, and value appreciation for investors and the community.<br />
-                Below is a breakdown of the token allocation and how each portion will be utilized.  
-              </Typography>
-            </Box>
-            
-            {/* Buttons */}
-            <Box sx={{ 
-              display: 'flex', 
-              gap: 3,
-              opacity: 0,
-              animation: 'fadeInFromLeft 1.5s ease-out 1.2s forwards'
-            }}>
-              <Button 
-                variant="contained" 
-                sx={{ 
-                  bgcolor: '#FFEB3B',
-                  color: 'black',
-                  fontSize: '1.25rem',
-                  padding: '12px 32px',
-                  fontFamily: 'BakBak One',
-                  '&:hover': { bgcolor: '#FFD700' }
-                }}
-              >
-                ROADMAP
-              </Button>
-              <Button 
-                variant="contained" 
-                sx={{ 
-                  bgcolor: '#00ff9d',
-                  color: 'black',
-                  fontSize: '1.25rem',
-                  padding: '12px 32px',
-                  fontFamily: 'BakBak One',
-                  '&:hover': { bgcolor: '#00cc7d' }
-                }}
-              >
-                CUSTOM-COP
-              </Button>
-            </Box>
-          </Box>
-          
-          {/* Right Content - NFT Image */}
-          <Box sx={{ 
-            width: { xs: '100%', md: '500px' },
-            opacity: 0,
-            animation: 'fadeInFromRight 1.5s ease-out 0.9s forwards'
-          }}>
-            <Paper sx={{ 
-              bgcolor: 'transparent',
-              p: 2,
-              borderRadius: 2
-            }}>
-              <Box 
-                component="img"
-                src={MetaCopImage}
-                alt="MetaCop NFT Preview"
-                sx={{ width: '100%', borderRadius: 1 }}
-              />
-            </Paper>
-          </Box>
-        </Box>
-        
-        {/* Stats Grid */}
-        <Grid container spacing={3}>
-          <StatCard number="911" label="TOTAL COPS" color="#00ff9d" />
-          <StatCard number="15 APRIL" label="PRE-SALE" color="#FFEB3B" />
-          <StatCard number="34" label="WL USERS" color="#00ff9d" />
-          <StatCard number="25 APRIL" label="PUBLIC-SALE" color="#FFEB3B" />
-        </Grid>
-      </Box>
-    </Box>
+
+  const navigate=useNavigate()
+  
+  const navigateToStake= ()=>{
+    navigate(Pages.Staking)
+  }
+  const navigateToBuy= ()=>{
+    navigate(Pages.Swap)
+  }
+
+  return(
+    <div className="bg-white">
+    <section className="bg-[#FCF8F1] bg-opacity-30 py-10 sm:py-16 lg:py-24">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
+                <div>
+                    <p className="text-base font-semibold tracking-wider text-blue-600 uppercase">Memecoin for Real Estates</p>
+                    <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 sm:text-6xl xl:text-8xl">Connect & join with the thai community</h1>
+                    <p className="mt-4 text-base text-black lg:mt-8 sm:text-xl">The Ultimate crypto to invest in Thailand Real Estates.</p>
+
+                    <div onClick={navigateToBuy}  className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-black transition-all duration-200 bg-yellow-300 rounded-full lg:mt-16 hover:bg-yellow-400 focus:bg-yellow-400" role="button">
+                        Buy $THAI Now 
+                        <svg className="w-6 h-6 ml-8 -mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+
+                    <p className="mt-5 text-gray-600">Already Bought? <span onClick={navigateToStake} className="text-black transition-all duration-200 hover:underline">Stake Now</span></p>
+                </div>
+
+                <div>
+                    <img className="w-full" src="thaicoin.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
   );
 };
 
