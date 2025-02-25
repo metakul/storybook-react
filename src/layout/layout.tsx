@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 import Header from "./TopBar";
 
@@ -40,7 +40,7 @@ export default function DashboardLayout() {
             setIsSidebarOpen={handleSideBarState}
             navConfig={navConfig}
           />
-          <Container
+          <Box
             component="main"
             sx={{
               flexGrow: 1,
@@ -48,8 +48,8 @@ export default function DashboardLayout() {
               mr: "auto",
             }}
           >
-            <Container><Outlet /></Container>
-          </Container>
+            <Outlet />
+          </Box>
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>
