@@ -13,6 +13,7 @@ import { Outlet } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 //theme
 import { ColorModeContext, getColors, useMode } from "./Theme/themes";
+import Footer from "./Footer";
 
 export default function DashboardLayout() {
   const [theme, colorMode] = useMode();
@@ -40,19 +41,15 @@ export default function DashboardLayout() {
             setIsSidebarOpen={handleSideBarState}
             navConfig={navConfig}
           />
-<Box
-  component="main"
-  sx={{
-    flexGrow: 1,
-    mt: 8,
-    mr: "auto",
-    background: theme.palette.mode === 'dark' 
-      ? getColors().primary[300]  
-      : getColors().yellowAccent[200]  
-  }}
->
-  <Outlet />
-</Box>
+          <Box
+            sx={{
+              mt: 8,
+            }}
+          >
+            <Outlet />
+          </Box>
+          <Footer />
+
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>

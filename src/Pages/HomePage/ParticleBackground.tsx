@@ -6,7 +6,7 @@ export const ParticleBackground: React.FC = () => {
     <Box
       sx={{
         position: 'absolute',
-        top: 0,
+        top: 800,
         left: 0,
         right: 0,
         bottom: 0,
@@ -16,18 +16,18 @@ export const ParticleBackground: React.FC = () => {
         pointerEvents: 'none',
       }}
     >
-      {[...Array(30)].map((_, i) => (
+      {[...Array(50)].map((_, i) => (
         <Box
           key={i}
           sx={{
             position: 'absolute',
             width: Math.random() * 10 + 5,
             height: Math.random() * 10 + 5,
-            backgroundColor: 'rgba(255, 215, 0, 0.6)',
+            backgroundColor: 'rgba(255, 0, 0, 0.6)',
             borderRadius: '50%',
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+            animation: `float ${Math.random() * 5 + 5}s linear infinite`,
             '@keyframes float': {
               '0%': {
                 transform: 'translateY(0) rotate(0deg)',

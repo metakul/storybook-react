@@ -123,11 +123,11 @@ const HowItWorks: React.FC = () => {
                       {item.step}
                     </Avatar>
                     <Typography 
-                      color={isDarkMode ? "text.primary" : "text.secondary"}
+                      color={"black" }
                       sx={{
                         transition: "color 0.3s ease",
                         "& strong": {
-                          color: isDarkMode ? "primary.main" : "primary.dark",
+                          color: "black",
                           fontWeight: "bold"
                         },
                         "&:hover": {
@@ -154,6 +154,7 @@ const HowItWorks: React.FC = () => {
               <Typography 
                 variant="body1" 
                 sx={{ 
+                  color:"black",
                   mt: 4, 
                   fontWeight: "medium",
                   maxWidth: 800,
@@ -161,7 +162,7 @@ const HowItWorks: React.FC = () => {
                   p: 2,
                   borderRadius: 2,
                   backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.2)',
-                  color: isDarkMode ? 'text.primary' : 'text.primary',
+                  // color: isDarkMode ? 'text.primary' : 'text.primary',
                   transition: "all 0.4s ease",
                   "&:hover": {
                     transform: "translateY(-4px)",

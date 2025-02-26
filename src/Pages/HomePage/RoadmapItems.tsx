@@ -38,7 +38,7 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({
   
   // Calculate year/quarter from index for display
   const quarters = ["Q1", "Q2", "Q3", "Q4"];
-  const year = 2023 + Math.floor(index / 4);
+  const year = 2025 + Math.floor(index / 4);
   const quarter = quarters[index % 4];
 
   // Enhanced animations based on active/completed status
@@ -96,7 +96,7 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({
     <Box 
       sx={{ 
         display: "flex", 
-        justifyContent: isMobile ? "center" : (isFromLeft ? "flex-end" : "flex-start"),
+        justifyContent: isMobile ? "center" : (isFromLeft ? "flex-start" : "flex-end"),
         width: "100%",
         position: "relative",
       }}
@@ -137,31 +137,47 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({
           }}
         >
           {completed ? (
-            <CheckCircleIcon 
-              sx={{ 
-                fontSize: 32, 
-                color: "#4CAF50",
-                filter: "drop-shadow(0 0 5px rgba(76, 175, 80, 0.5))"
-              }}
-            />
+            <Chip 
+            size="small"
+            label={"Completed"}
+            sx={{
+              backgroundColor: completed 
+                ? isDarkMode ? "rgba(76, 175, 80, 0.3)" : "rgba(76, 175, 80, 0.2)"
+                : isDarkMode ? "rgba(255, 215, 0, 0.3)" : "rgba(255, 215, 0, 0.2)",
+              color: completed 
+                ? isDarkMode ? "#81C784" : "#2E7D32"
+                : isDarkMode ? "#FFE082" : "#F57F17",
+              fontWeight: "bold",
+            }}
+          />
           ) : active ? (
-            <TimelineIcon 
-              sx={{ 
-                fontSize: 28, 
-                color: "#FFD700",
-                filter: "drop-shadow(0 0 5px rgba(255, 215, 0, 0.5))"
-              }}
-            />
+            <Chip 
+            size="small"
+            label={"In Progress"}
+            sx={{
+              backgroundColor: completed 
+                ? isDarkMode ? "rgba(76, 175, 80, 0.3)" : "rgba(76, 175, 80, 0.2)"
+                : isDarkMode ? "rgba(255, 215, 0, 0.3)" : "rgba(255, 215, 0, 0.2)",
+              color: completed 
+                ? isDarkMode ? "#81C784" : "#2E7D32"
+                : isDarkMode ? "#FFE082" : "#F57F17",
+              fontWeight: "bold",
+            }}
+          />
           ) : (
-            <Box 
-              sx={{
-                width: 16,
-                height: 16,
-                borderRadius: "50%",
-                backgroundColor: "rgba(255, 215, 0, 0.5)",
-                boxShadow: "0 0 8px rgba(255, 215, 0, 0.3)",
-              }}
-            />
+              <Chip 
+                size="small"
+                label={"In Progress"}
+                sx={{
+                  backgroundColor: completed 
+                    ? isDarkMode ? "rgba(76, 175, 80, 0.3)" : "rgba(76, 175, 80, 0.2)"
+                    : isDarkMode ? "rgba(255, 215, 0, 0.3)" : "rgba(255, 215, 0, 0.2)",
+                  color: completed 
+                    ? isDarkMode ? "#81C784" : "#2E7D32"
+                    : isDarkMode ? "#FFE082" : "#F57F17",
+                  fontWeight: "bold",
+                }}
+              />
           )}
         </motion.div>
       )}

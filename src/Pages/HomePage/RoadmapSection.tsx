@@ -9,7 +9,6 @@ import {
   useMediaQuery
 } from "@mui/material";
 import { getColors } from "../../layout/Theme/themes";
-import { GradientBackground, TimelineLine } from "./CustomMuiStyle";
 import RoadmapItem from "./RoadmapItems";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { ParticleBackground } from '../HomePage/ParticleBackground';
@@ -27,14 +26,14 @@ const RoadmapSection: React.FC = () => {
   
   const roadmapData = [
     {
-      phase: "Pre-Sale & Liquidity",
-      title: "Genesis Minting",
-      allocation: "50% – 5,000,000 Tokens",
+      phase: "Launch",
+      title: "Initial Team Building",
+      allocation: "0% – 0 Tokens",
       percentage: 10,
       items: [
-        "Minting the first 500 unique Thai.Coin NFTs.",
+        "Recruiting core developers for smart contract and blockchain integration.",
+        "Onboarding marketing specialists for brand awareness and viral campaigns.",
         "Exclusive access for early supporters and whitelist members.",
-        "Unveiling our legendary NFT characters to the world.",
         "Initiation of the Thai.Coin community."
       ],
       active: true,
@@ -58,7 +57,7 @@ const RoadmapSection: React.FC = () => {
       phase: "Marketing & Growth",
       title: "Ecosystem Expansion",
       allocation: "15% – 1,500,000 Tokens",
-      percentage: 15,
+      percentage: 50,
       items: [
         "Used for influencer partnerships, social media promotions, and exchange listings.",
         "Community-building initiatives including giveaways, airdrops, and special campaigns.",
@@ -72,7 +71,7 @@ const RoadmapSection: React.FC = () => {
       phase: "Reserve & Buybacks",
       title: "Web3 Integration",
       allocation: "10% – 1,000,000 Tokens",
-      percentage: 30,
+      percentage: 75,
       items: [
         "Strategic reserves for token buybacks, ensuring price support when needed.",
         "Buybacks funded through ecosystem revenue, increasing token demand over time.",
@@ -86,7 +85,7 @@ const RoadmapSection: React.FC = () => {
       phase: "Founder Rewards",
       title: "Global Expansion",
       allocation: "5% – 500,000 Tokens",
-      percentage: 20,
+      percentage: 100,
       items: [
         "Rewards for the core team and early contributors to Thai.Coin.",
         "Tokens vested over time to ensure alignment with long-term project success.",
@@ -110,6 +109,7 @@ const RoadmapSection: React.FC = () => {
         minHeight: '100vh',
         color: isDarkMode ? '#FFF' : 'inherit'
       }}
+      id="roadmap"
     >
       {/* Use ParticleBackground component for consistency with HomePage1 */}
       <ParticleBackground />
@@ -192,6 +192,7 @@ const RoadmapSection: React.FC = () => {
             sx={{ 
               position: "absolute",
               top: 0,
+              height: "90%",
               bottom: 0,
               left: "50%",
               width: "4px",
@@ -204,7 +205,7 @@ const RoadmapSection: React.FC = () => {
           />
 
           {/* Animated dots on timeline */}
-          {[0, 0.25, 0.5, 0.75, 1].map((position, index) => (
+          {[0.009, 0.177, 0.358, 0.547, 0.737,0.9].map((position, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0 }}
@@ -217,7 +218,7 @@ const RoadmapSection: React.FC = () => {
               style={{ 
                 position: "absolute",
                 top: `${position * 100}%`,
-                left: "50%",
+                left: "49%",
                 width: isMobile ? 0 : 20,
                 height: isMobile ? 0 : 20,
                 backgroundColor: "#FFD700",
@@ -260,7 +261,7 @@ const RoadmapSection: React.FC = () => {
                 boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
                 border: "1px solid rgba(255, 255, 255, 0.3)",
                 maxWidth: "800px",
-                mx: "auto"
+                mx: "auto",
               }}
             >
               <Typography 
@@ -272,6 +273,8 @@ const RoadmapSection: React.FC = () => {
                   color: 'inherit',
                 }}
               >
+
+                And more Roadmap Coming Soon <br/>
                 Join Us on This Exciting Journey
               </Typography>
               <Typography 

@@ -5,6 +5,7 @@ import DashboardLayout from "./layout/layout";
 import HomePage from "./Pages/HomePage";
 import StakingPage from "./Pages/StakingPage";
 import SwapPage from "./Pages/SwapPage";
+import ComingSoon from "./Pages/ComingSoon";
 
 const Router: React.FC = () => {
 
@@ -30,9 +31,9 @@ const Router: React.FC = () => {
   
    
       
+        { path: "*", element: <ComingSoon /> },
       ],
     },
-    { path: "*", element: <Navigate to={Pages.Home} /> },
   ]);
 
   return routes;

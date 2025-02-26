@@ -34,7 +34,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const FooterLink = styled(Link)(({ theme }) => ({
+const FooterLink = styled(Typography)(({ theme }) => ({
   color: 'white',
   textDecoration: 'none',
   padding: theme.spacing(0.5, 0),
@@ -44,6 +44,7 @@ const FooterLink = styled(Link)(({ theme }) => ({
     color: '#FFD700',
     transform: 'translateX(5px)',
     textDecoration: 'none',
+    cursor: 'pointer',
   },
 }));
 
@@ -109,36 +110,45 @@ const Footer = () => {
               Quick Links
             </Typography>
             <Box component="nav" sx={{ display: 'flex', flexDirection: 'column' }}>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Home)}>Home</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Swap)}>Buy $THAI</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Staking)}>Stake</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Whitepaper)}>Whitepaper</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Roadmap)}>Roadmap</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Home)}>Home</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Swap)}>Buy $THAI</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Staking)}>Stake</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Whitepaper)}>Whitepaper</FooterLink>
+              <FooterLink
+                onClick={() => {
+                  navigateTo(Pages.Home);
+                  setTimeout(() => {
+                    window.location.hash = "roadmap";
+                  }, 100);
+                }}
+              >
+                Roadmap
+              </FooterLink>
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#FFD700' }}>
               Resources
             </Typography>
             <Box component="nav" sx={{ display: 'flex', flexDirection: 'column' }}>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Tokenomics)}>Tokenomics</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Team)}>Team</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Partners)}>Partners</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.FAQ)}>FAQ</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Blog)}>News</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Tokenomics)}>Tokenomics</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Team)}>Team</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Partners)}>Partners</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.FAQ)}>FAQ</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Blog)}>News</FooterLink>
             </Box>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#FFD700' }}>
               Legal
             </Typography>
             <Box component="nav" sx={{ display: 'flex', flexDirection: 'column' }}>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.PrivacyPolicy)}>Privacy Policy</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.TermsOfService)}>Terms of Service</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Disclaimer)}>Disclaimer</FooterLink>
-              <FooterLink href="#" onClick={() => navigateTo(Pages.Contact)}>Contact Us</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.PrivacyPolicy)}>Privacy Policy</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.TermsOfService)}>Terms of Service</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Disclaimer)}>Disclaimer</FooterLink>
+              <FooterLink onClick={() => navigateTo(Pages.Contact)}>Contact Us</FooterLink>
             </Box>
           </Grid>
         </Grid>

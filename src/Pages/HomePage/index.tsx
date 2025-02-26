@@ -61,7 +61,6 @@ const HomePage: React.FC = () => {
       
       {/* FAQ Section */}
       <FaqSection />
-      <Footer/>
     </Box>
   );
 };
