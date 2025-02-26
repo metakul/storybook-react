@@ -8,7 +8,7 @@ import { TokenInput } from '../../components/TokenInput/TokenInput';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 import { useNavigate } from 'react-router-dom';
 import SwapDialog from './SwapDialog';
-import { toWei } from "thirdweb/utils";
+// import { toWei } from "thirdweb/utils";
 import { client } from "../../client";
  
 const FIXED_EXCHANGE_RATE = 100;
@@ -137,7 +137,7 @@ const StakingPage: React.FC = () => {
       //  Swap USDT for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
-        method: "function buyTokens( uint256 _presaleId, uint256 amount)",
+        method: "function buyTokens( uint256 _presaleId, uint256 amount) payable",
         params: [BigInt(1),  BigInt(thaiAmount * 1e18)], // todo Update presaleId
         value: amountInWei,
       });
