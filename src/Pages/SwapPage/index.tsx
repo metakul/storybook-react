@@ -126,7 +126,6 @@ const StakingPage: React.FC = () => {
     }
 
     const amountInWei = BigInt(Math.floor(userAmount * 1e18));
-console.log(amountInWei,userAmount);
 
     if (userBalance === undefined || amountInWei > userBalance.value) {
       alert("Insufficient token balance.");
@@ -140,9 +139,11 @@ console.log(amountInWei,userAmount);
         contract: dexContract,
         method: "function buyTokens( uint256 _presaleId, uint256 amount)",
         params: [BigInt(1),  BigInt(thaiAmount * 1e18)], // todo Update presaleId
-        value: toWei("0.01"),
+        value: amountInWei,
       });
+
       await sendTransaction(swapTx);
+      
       console.log("Swap successful", swapTx);
 
     } catch (error) {
