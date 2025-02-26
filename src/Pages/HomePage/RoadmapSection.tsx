@@ -112,8 +112,11 @@ const RoadmapSection: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: false }}
+            transition={{ 
+              duration: 1.5,  // Increased from 0.8 to 1.5
+              ease: "easeOut" 
+            }}
+            viewport={{ once: false, amount: 0.2 }}  // Lower amount for earlier trigger
           >
             <Box sx={{ textAlign: "center", mb: 8, position: "relative" }}>
               <Typography 

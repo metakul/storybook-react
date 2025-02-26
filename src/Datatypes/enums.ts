@@ -29,6 +29,17 @@ export enum Pages {
   Home="",
   Staking="/staking",
   Swap="/swap",
+  TermsOfService = "TermsOfService",
+  PrivacyPolicy = "PrivacyPolicy",
+  Disclaimer = "Disclaimer",
+  Contact = "Contact",
+  Blog = "Blog",
+  Tokenomics = "Tokenomics",
+  Team = "Team",
+  Partners = "Partners",
+  FAQ = "FAQ",
+  Whitepaper = "Whitepaper",
+  Roadmap = "Roadmap",
 }
 
 export enum PromptType {

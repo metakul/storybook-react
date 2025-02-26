@@ -4,7 +4,7 @@ import HomePage1 from './HomePage1';
 import RoadmapSection from './RoadmapSection';
 import HowItWorks from './HowItWorks';
 import FaqSection from './FaqSection';
-
+import Footer from '../../layout/Footer';
 // Add custom CSS for animations
 const customStyles = `
 @keyframes fadeInFromLeft {
@@ -61,6 +61,7 @@ const HomePage: React.FC = () => {
       
       {/* FAQ Section */}
       <FaqSection />
+      <Footer/>
     </Box>
   );
 };

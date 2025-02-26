@@ -72,18 +72,19 @@ interface RoadmapItemProps {
           <motion.div
             initial={{ opacity: 0, x: isFromLeft ? -100 : 100 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.2 }}  // Lower threshold to start animation earlier
             transition={{ 
               type: "spring", 
-              duration: 0.8, 
-              bounce: 0.3 
+              duration: 1.5,  // Increased from 0.8 to 1.5 
+              bounce: 0.25,   // Reduced bounce for smoother motion
+              stiffness: 80    // Lower stiffness for more gradual movement
             }}
           >
             <RoadmapCard
               elevation={6}
               sx={{
                 borderColor: active ? "#00ff9d" : completed ? "#00ff9d" : "rgba(0, 255, 157, 0.4)",
-                transition: "all 0.3s ease",
+                transition: "all 0.5s ease",  // Increased from 0.3s to 0.5s
                 marginLeft: isFromLeft ? { xs: "auto", md: 0 } : { xs: "auto", md: "auto" },
                 marginRight: isFromLeft ? { xs: "auto", md: "auto" } : { xs: "auto", md: 0 },
                 "&:hover": {
@@ -123,14 +124,17 @@ interface RoadmapItemProps {
                     key={idx}
                     initial={{ opacity: 0, x: isFromLeft ? -20 : 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + idx * 0.1 }}
-                    viewport={{ once: false }}
+                    transition={{ 
+                      duration: 0.8,  // Added duration for more control
+                      delay: 0.3 + idx * 0.15  // Increased from 0.2+0.1 to 0.3+0.15 for more spacing
+                    }}
+                    viewport={{ once: false, amount: 0.6 }}  // Trigger when more of item is visible
                   >
                     <ListItem
                       sx={{ 
                         py: 1, 
                         px: 0,
-                        transition: "transform 0.2s",
+                        transition: "transform 0.3s",  // Increased from 0.2s to 0.3s
                         "&:hover": {
                           transform: "translateX(8px)",
                         }
@@ -144,7 +148,7 @@ interface RoadmapItemProps {
                         primaryTypographyProps={{ 
                           color: "text.secondary",
                           sx: {
-                            transition: "color 0.2s",
+                            transition: "color 0.3s",  // Increased from 0.2s to 0.3s
                             "&:hover": {
                               color: "white",
                             }
