@@ -33,7 +33,7 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
   open,
   onClose,
   onConfirm,
-  approveToken,
+  // approveToken,
   fromAmount,
   toAmount,
   fromSymbol,
@@ -134,19 +134,19 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        {isApprovedTokenLoading ? (
+        {/* {isApprovedTokenLoading ? (
           "Loading..."
-        ) : approvedFromToken !== undefined && Number(approvedFromToken) / 1e18 >= fromAmount ? (
+        ) : approvedFromToken !== undefined && Number(approvedFromToken) / 1e18 >= fromAmount ? ( */}
           <LoadingButtonWrapper onClick={onConfirm} disabled={false}>
             Confirm swap
           </LoadingButtonWrapper>
-        ) : (
-          <LoadingButtonWrapper
-            onClick={approveToken}
-          >
-            Approve {fromSymbol}
-          </LoadingButtonWrapper>
-        )}
+        {/* // ) : (
+        //   <LoadingButtonWrapper
+        //     onClick={approveToken}
+        //   >
+        //     Approve {fromSymbol}
+        //   </LoadingButtonWrapper>
+        // )} */}
       </DialogActions>
 
     </Dialog>

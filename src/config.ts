@@ -3,6 +3,8 @@ import { client } from "./client";
 import { polygonAmoy } from 'thirdweb/chains';
 import { inAppWallet } from "thirdweb/wallets";
 
+
+export const defaultChain=polygonAmoy
 // src/config.ts
 export const config = {
     erc20ContractAddress: import.meta.env.VITE_ERC20_CONTRACT_ADDRESS,
@@ -14,29 +16,29 @@ export const config = {
 export const erc20contract = getContract({
       client,
       address: config.erc20ContractAddress,
-      chain: polygonAmoy,
+      chain: defaultChain,
     });
 export const usdtContract = getContract({
       client,
       address: config.usdtContractAddress,
-      chain: polygonAmoy,
+      chain: defaultChain,
     });
     
 export const stakingContract = getContract({
       client,
       address: config.stakeContractAddress,
-      chain: polygonAmoy,
+      chain: defaultChain,
     });
 
 export const dexContract = getContract({
       client,
       address: config.dexContractAddress,
-      chain: polygonAmoy,
+      chain: defaultChain,
     });
     export const wallets = [
       inAppWallet({
         smartAccount: {
-          chain: polygonAmoy,
+          chain: defaultChain,
           sponsorGas: true,
         },
       }),

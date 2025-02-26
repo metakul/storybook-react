@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button, Alert } from '@mui/material';
-import { useActiveAccount, useSendTransaction, useReadContract } from "thirdweb/react";
-import { config, usdtContract, dexContract, erc20contract } from '../../config';
+import { useActiveAccount, useSendTransaction, useReadContract, useWalletBalance } from "thirdweb/react";
+import { defaultChain, dexContract, erc20contract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import { getColors } from '../../layout/Theme/themes';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 import { useNavigate } from 'react-router-dom';
 import SwapDialog from './SwapDialog';
-
+import { toWei } from "thirdweb/utils";
+import { client } from "../../client";
+ 
 const FIXED_EXCHANGE_RATE = 100;
 
 const StakingPage: React.FC = () => {
@@ -18,7 +20,7 @@ const StakingPage: React.FC = () => {
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
 
-  const [usdtAmount, setUsdtAmount] = useState<number>(0);
+  const [userAmount, setUserAmount] = useState<number>(0);
   const [thaiAmount, setThaiAmount] = useState<number>(0);
   const [openSwapDialog, setOpenSwapDialog] = useState(false);
 
@@ -30,91 +32,103 @@ const StakingPage: React.FC = () => {
     await handleSwap();
     // setOpenSwapDialog(false);
   };
-  const { data: usdtBalance, isLoading: isBalanceLoading } = useReadContract({
-    contract: usdtContract,
-    method: "function balanceOf(address owner) returns (uint256)",
-    params: [account?.address || "0x"],
+  const { data:userBalance, isLoading:isUserBalanceLoading } = useWalletBalance({
+    chain:defaultChain,
+    address:account?.address,
+    client,
   });
+
   const { data: erc20Balance } = useReadContract({
     contract: erc20contract,
     method: "function balanceOf(address owner) returns (uint256)",
     params: [account?.address || "0x"],
   });
 
-  const { data: usdtSymbol } = useReadContract({
-    contract: usdtContract,
-    method: "function symbol() returns (string)",
-    params: [],
-  });
+  // const { data: usdtSymbol } = useReadContract({
+  //   contract: usdtContract,
+  //   method: "function symbol() returns (string)",
+  //   params: [],
+  // });
   const { data: erc20Symbol } = useReadContract({
     contract: erc20contract,
     method: "function symbol() returns (string)",
     params: [],
   });
-  const { data: approvedFromToken } = useReadContract({
-    contract: usdtContract,
-    method: "function allowance(address owner, address spender) view returns (uint256)",
-    params: [account?.address || "0x", config.dexContractAddress],
-  });
+  // const { data: approvedFromToken } = useReadContract({
+  //   contract: usdtContract,
+  //   method: "function allowance(address owner, address spender) view returns (uint256)",
+  //   params: [account?.address || "0x", config.dexContractAddress],
+  // });
 
   useEffect(() => {
-    setThaiAmount(usdtAmount * FIXED_EXCHANGE_RATE);
-  }, [usdtAmount]);
+    setThaiAmount(userAmount * FIXED_EXCHANGE_RATE);
+  }, [userAmount]);
+
+  // const handleApprove = async (): Promise<void> => {
+  //   if (!account) {
+  //     alert("Please connect your wallet first.");
+  //     return;
+  //   }
+
+  //   if (userAmount <= 0) {
+  //     alert("Amount must be greater than 0.");
+  //     return;
+  //   }
+
+  //   const amountInWei = BigInt(Math.floor(userAmount * 1e18));
+
+  //   // if (usdtBalance === undefined || amountInWei > usdtBalance) {
+  //   //   alert("Insufficient token balance.");
+  //   //   return;
+  //   // }
+
+  //   try {
+
+  //     if (approvedFromToken && approvedFromToken >= amountInWei) {
+  //       handleSwapClick()
+  //     }
+  //     else {
+  //       const approveTx = prepareContractCall({
+  //         contract: usdtContract,
+  //         method: "function approve(address spender, uint256 amount)",
+  //         params: [dexContract.address, amountInWei],
+  //       });
+  //       await sendTransaction(approveTx);
+  //       console.log("Approval successful:", approveTx);
+  //       handleSwapClick()
+  //     }
+  //   } catch (error) {
+  //     console.error("Approval failed:", error);
+  //     alert("Approval failed. Please try again.");
+  //   } finally {
+  //   }
+  // };
+
 
   const handleApprove = async (): Promise<void> => {
     if (!account) {
       alert("Please connect your wallet first.");
       return;
-    }
-
-    if (usdtAmount <= 0) {
-      alert("Amount must be greater than 0.");
-      return;
-    }
-
-    const amountInWei = BigInt(Math.floor(usdtAmount * 1e18));
-
-    if (usdtBalance === undefined || amountInWei > usdtBalance) {
-      alert("Insufficient token balance.");
-      return;
-    }
-
-    try {
-
-      if (approvedFromToken && approvedFromToken >= amountInWei) {
-        handleSwapClick()
-      }
-      else {
-        const approveTx = prepareContractCall({
-          contract: usdtContract,
-          method: "function approve(address spender, uint256 amount)",
-          params: [dexContract.address, amountInWei],
-        });
-        await sendTransaction(approveTx);
-        console.log("Approval successful:", approveTx);
-        handleSwapClick()
-      }
-    } catch (error) {
-      console.error("Approval failed:", error);
-      alert("Approval failed. Please try again.");
-    } finally {
-    }
-  };
-
+    }  
+    handleSwapClick()
+    console.log("No need to approve");
+    
+  }
   const handleSwap = async (): Promise<void> => {
     if (!account) {
       alert("Please connect your wallet first.");
       return;
     }
 
-    if (usdtAmount <= 0) {
+    if (userAmount <= 0) {
       alert("Amount must be greater than 0.");
       return;
     }
 
-    const amountInWei = BigInt(Math.floor(usdtAmount * 1e18));
+    const amountInWei = BigInt(Math.floor(userAmount * 1e18));
+console.log(amountInWei,userAmount);
 
-    if (usdtBalance === undefined || amountInWei > usdtBalance) {
+    if (userBalance === undefined || amountInWei > userBalance.value) {
       alert("Insufficient token balance.");
       return;
     }
@@ -124,8 +138,9 @@ const StakingPage: React.FC = () => {
       //  Swap USDT for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
-        method: "function swapNow(address tokenIn, uint256 amountIn, address tokenOut, uint256 amountOut)",
-        params: [usdtContract.address, amountInWei, erc20contract.address, BigInt(thaiAmount * 1e18)],
+        method: "function buyTokens( uint256 _presaleId, uint256 amount)",
+        params: [BigInt(1),  BigInt(thaiAmount * 1e18)], // todo Update presaleId
+        value: toWei("0.01"),
       });
       await sendTransaction(swapTx);
       console.log("Swap successful", swapTx);
@@ -157,25 +172,25 @@ const StakingPage: React.FC = () => {
             </Typography>
 
             <Typography variant="h5" sx={{ mb: 3 }}>
-              My Wallet Balance: {isBalanceLoading
+              My Wallet Balance: {isUserBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
                   ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
                   : "Connect Your wallet to see balance"}
             </Typography>
             <Typography variant="h5" sx={{ mb: 3 }}>
-              My Wallet Balance: {isBalanceLoading
+              My Wallet Balance: {isUserBalanceLoading
                 ? "Loading..."
-                : usdtBalance !== undefined
-                  ? `${(Number(usdtBalance) / 1e18).toLocaleString()} ${usdtSymbol || 'BUSD'}`
+                : userBalance !== undefined
+                  ? `${(Number(userBalance.value) / 1e18).toLocaleString()} ${'POL'}`
                   : "Connect Your wallet to see balance"}
             </Typography>
 
             {/* First Token Input: BUSD */}
             <TokenInput
-              value={usdtAmount}
-              onChange={setUsdtAmount}
-              onMaxClick={() => setUsdtAmount(Number(usdtBalance || 0n) / 1e18)}
+              value={userAmount}
+              onChange={setUserAmount}
+              onMaxClick={() => setUserAmount(Number(userBalance || 0n) / 1e18)}
               actionLabel="USDT"
               disabled={true}
             />
@@ -200,9 +215,9 @@ const StakingPage: React.FC = () => {
               onClose={() => setOpenSwapDialog(false)}
               onConfirm={handleSwapConfirm}
               approveToken={handleApprove}
-              fromAmount={usdtAmount}
+              fromAmount={userAmount}
               toAmount={thaiAmount}
-              fromSymbol={usdtSymbol || 'USDT'}
+              fromSymbol={"POL"}
               toSymbol={erc20Symbol || 'THAI'}
               exchangeRate={FIXED_EXCHANGE_RATE}
             />
