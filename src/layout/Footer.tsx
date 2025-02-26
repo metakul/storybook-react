@@ -1,6 +1,5 @@
 // src/components/Footer/Footer.tsx
-import React from 'react';
-import { Box, Container, Grid, Typography, Link, Stack, IconButton, Divider } from '@mui/material';
+import { Box, Container, Grid, Typography, Stack, IconButton, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -22,17 +21,17 @@ const DiscordIcon = () => (
   </Box>
 );
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  color: '#FFD700',
-  backgroundColor: 'rgba(0, 0, 0, 0.8)',
-  margin: theme.spacing(0.5),
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    backgroundColor: '#FFD700',
-    color: 'black',
-    transform: 'translateY(-3px)',
-  },
-}));
+// const StyledIconButton = styled(IconButton)(({ theme }) => ({
+//   color: '#FFD700',
+//   backgroundColor: 'rgba(0, 0, 0, 0.8)',
+//   margin: theme.spacing(0.5),
+//   transition: 'all 0.3s ease',
+//   '&:hover': {
+//     backgroundColor: '#FFD700',
+//     color: 'black',
+//     transform: 'translateY(-3px)',
+//   },
+// }));
 
 const FooterLink = styled(Typography)(({ theme }) => ({
   color: 'white',

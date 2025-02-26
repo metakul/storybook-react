@@ -1,9 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Paper, Chip, useTheme, useMediaQuery } from "@mui/material";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import TimelineIcon from '@mui/icons-material/Timeline';
 import { getColors } from "../../layout/Theme/themes";
 
 // Interface for roadmap items

@@ -1,5 +1,5 @@
 import React from "react";
-import { useRoutes, Navigate } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { Pages } from "./Datatypes/enums";
 import DashboardLayout from "./layout/layout";
 import HomePage from "./Pages/HomePage";

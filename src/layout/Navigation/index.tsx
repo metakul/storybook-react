@@ -2,13 +2,12 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NavItem from './NavItem/NavItem';
-//css
-import { DrawerHeader } from './style.css';
+import { CustomDrawer, DrawerHeader } from './style.css';
 import { SwipeableDrawer } from '@mui/material';
+import { getColors } from '../Theme/themes';
 
-import CloseIcon from '@mui/icons-material/Close';
 export interface MiniDrawerProps {
     isSidebarOpen: boolean;
     setIsSidebarOpen: () => void;
@@ -19,53 +18,94 @@ export interface MiniDrawerProps {
         icon: React.ReactNode | null;
         to: string;
     }[];
-    APP_BAR:string
+    APP_BAR: string;
 }
 
-
 const MiniDrawer: React.FC<MiniDrawerProps> = ({ setIsSidebarOpen, isNonMobile, isSidebarOpen, navConfig, setShowOutlet }) => {
+    const [active, setActive] = React.useState("");
 
     return (
         <>
-           
-                <SwipeableDrawer
-                        variant="persistent"
-                        open={isSidebarOpen}
-                         onClose={function (_event: React.SyntheticEvent<{}, Event>): void {
-                            isSidebarOpen
-                            
-                        } }
-                         onOpen={function (_event: React.SyntheticEvent<{}, Event>): void {
-                            isSidebarOpen
-
-                        } }
-                                        >
-                    <DrawerHeader>
-                    <IconButton onClick={() => setIsSidebarOpen()} >
-                    {/* <img src={`/Images/main-menu.png`} alt="logo" className="w-8 h-8 ml-4" /> */}
-                    <CloseIcon/>
-
-                        </IconButton>
-                    </DrawerHeader>
+            {isNonMobile ? (
+                <CustomDrawer  PaperProps={{
+                    sx: {
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      marginTop: "90px",
+                      marginLeft: 1,
+                      borderRadius: 4,
+                      height: "85%",
+                      paddingBottom:"40px",
+                      background: getColors().yellowAccent[200] 
+        
+                    },
+                  }} variant="permanent" open={isSidebarOpen}>
                     <Divider />
-                    <List >
+                    <List>
                         {navConfig.map((item, index) => (
-                            <NavItem isNonMobile={isNonMobile} item={item} key={index} isSidebarOpen={isSidebarOpen} setShowOutlet={setShowOutlet} />
+                            <NavItem
+                                key={index}
+                                isNonMobile={isNonMobile}
+                                item={item}
+                                isSidebarOpen={isSidebarOpen}
+                                setShowOutlet={setShowOutlet}
+                                active={active}
+                                setActive={setActive}
+                            />
                         ))}
                     </List>
                     <Divider />
-                    <DrawerHeader>
-                        <IconButton onClick={() => setIsSidebarOpen()} >
-                        {/* <img src={`/Images/main-menu.png`} alt="logo" className="w-8 h-8 ml-4" /> */}
-                        <CloseIcon/>
-
-                        </IconButton>
-                    </DrawerHeader>
+                    {isSidebarOpen && (
+                        <DrawerHeader>
+                            <IconButton onClick={setIsSidebarOpen}>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </DrawerHeader>
+                    )}
+                    <Divider />
+                </CustomDrawer>
+            ) : (
+                <SwipeableDrawer
+                ModalProps={{
+                    keepMounted: false,
+                  }}
+                  PaperProps={{
+                    sx: {
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      marginTop: "75px",
+                      marginLeft: 2,
+                      borderRadius: 4,
+                      height: "85%",
+                      paddingBottom:"40px",
+                      background: getColors().yellowAccent[200] 
+        
+                    },
+                  }}
+                    variant="persistent"
+                    open={isSidebarOpen}
+                    onClose={(event) => console.log(event)}
+                    onOpen={(event) => console.log(event)}
+                >
+                    <Divider />
+                    <List>
+                        {navConfig.map((item, index) => (
+                            <NavItem
+                                key={index}
+                                isNonMobile={isNonMobile}
+                                item={item}
+                                isSidebarOpen={isSidebarOpen}
+                                setShowOutlet={setShowOutlet}
+                                active={active}
+                                setActive={setActive}
+                            />
+                        ))}
+                    </List>
                     <Divider />
                 </SwipeableDrawer>
+            )}
         </>
-
-
     );
-}
+};
+
 export default MiniDrawer;

@@ -41,8 +41,9 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR }) => {
 
   return (
     <AppBar sx={{
-      backgroundColor: getColors().secondary[900],
-      height: APP_BAR
+    backgroundColor:getColors().yellowAccent[200],
+      height: APP_BAR,
+      border:"none"
     }} >
       <Toolbar>
 

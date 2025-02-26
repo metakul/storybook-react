@@ -200,7 +200,7 @@ const RoadmapSection: React.FC = () => {
           />
 
           {/* Animated dots on timeline */}
-          {[0.009, 0.177, 0.358, 0.547, 0.737,0.9].map((position, index) => (
+          {[0.008, 0.187, 0.36, 0.545, 0.738,0.9].map((position, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0 }}

@@ -1,6 +1,7 @@
 import { styled,  Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { getColors } from '../Theme/themes';
 const drawerWidth = 240;
 
 export const openedMixin = (theme: Theme): CSSObject => ({
@@ -9,7 +10,7 @@ export const openedMixin = (theme: Theme): CSSObject => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor:theme.palette.background.default,
+    backgroundColor:getColors().yellowAccent[200],
     overflowX: 'hidden',
 });
 
@@ -18,7 +19,8 @@ export const closedMixin = (theme: Theme): CSSObject => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor:theme.palette.background.default,
+    backgroundColor:getColors().yellowAccent[200],
+
 
     zIndex:"4",
     overflowX: 'hidden',
@@ -60,6 +62,7 @@ export const AppBar = styled(MuiAppBar, {
 
 export const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
+        ml:"200px",
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',

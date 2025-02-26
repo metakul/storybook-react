@@ -17,7 +17,7 @@ import Footer from "./Footer";
 
 export default function DashboardLayout() {
   const [theme, colorMode] = useMode();
-  const isNonMobile = useMediaQuery("(min-width: 766px)");
+  const isNonMobile = useMediaQuery("(min-width: 768px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [, setShowOutlet] = useState<boolean>(false);
   const APP_BAR = "64px";
@@ -43,12 +43,14 @@ export default function DashboardLayout() {
           />
           <Box
             sx={{
+              background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%,${getColors().yellowAccent[100]} 50%, ${getColors().yellowAccent[300]} 100%)`,
               mt: 8,
+              pl:10
             }}
           >
             <Outlet />
-          </Box>
           <Footer />
+          </Box>
 
         </ThemeProvider>
       </ColorModeContext.Provider>

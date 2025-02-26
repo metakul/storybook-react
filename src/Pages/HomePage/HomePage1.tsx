@@ -1,5 +1,5 @@
 // src/pages/HomePage/HomePage1.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, Button, Grid, Container, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Pages } from '../../Datatypes/enums';
@@ -7,7 +7,7 @@ import { getColors } from '../../layout/Theme/themes';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import { Fade, Zoom } from '@mui/material';
+import { Fade } from '@mui/material';
 import { ParticleBackground } from './ParticleBackground';
 import { StatCard } from './StatCard';
 import { CoinDisplay } from './CoinDisplay';
@@ -31,8 +31,6 @@ const HomePage1 = () => {
   return (
     <Box 
       sx={{
-        position: 'relative',
-        overflow: 'hidden',
         py: { xs: 8, md: 12 },
         minHeight: '100vh'
       }}
