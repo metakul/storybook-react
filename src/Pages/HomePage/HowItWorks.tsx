@@ -10,11 +10,8 @@ const HowItWorks: React.FC = () => {
 
   return (
     <Box sx={{ 
-      background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%, #FFF9C4 50%, ${getColors().yellowAccent[300]} 100%)`,
       position: 'relative',
       overflow: 'hidden',
-      py: { xs: 8, md: 12 },
-      minHeight: '80vh'
     }}>
       {/* Use ParticleBackground for consistency with Homepage1 */}
       <ParticleBackground />

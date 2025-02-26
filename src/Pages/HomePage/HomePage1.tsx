@@ -31,7 +31,6 @@ const HomePage1 = () => {
   return (
     <Box 
       sx={{
-        background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%, #FFF9C4 50%, ${getColors().yellowAccent[300]} 100%)`,
         position: 'relative',
         overflow: 'hidden',
         py: { xs: 8, md: 12 },
@@ -50,7 +49,7 @@ const HomePage1 = () => {
                   sx={{ 
                     fontSize: { xs: '0.9rem', md: '1rem' },
                     fontWeight: 'bold',
-                    color: '#1A237E',
+                    color: getColors().blueAccent[400],
                     letterSpacing: 2,
                     textTransform: 'uppercase',
                     display: 'block',
@@ -64,7 +63,6 @@ const HomePage1 = () => {
                   variant="h1" 
                   sx={{ 
                     fontWeight: 800,
-                    color: '#000',
                     lineHeight: 1.1,
                     fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem', lg: '5rem' },
                     mb: { xs: 2, md: 4 },
@@ -79,7 +77,7 @@ const HomePage1 = () => {
                   variant="h6" 
                   sx={{ 
                     fontSize: { xs: '1.1rem', md: '1.4rem' },
-                    color: '#424242',
+                    color: getColors().grey[300],
                     mb: { xs: 4, md: 6 },
                     maxWidth: '90%'
                   }}
@@ -103,7 +101,8 @@ const HomePage1 = () => {
                       borderRadius: 6,
                       fontSize: '1.1rem',
                       fontWeight: 'bold',
-                      backgroundColor: '#FFD700',
+                      backgroundColor: getColors().yellowAccent[400],
+
                       color: '#000',
                       boxShadow: '0 10px 20px rgba(255, 215, 0, 0.3)',
                       '&:hover': {
@@ -129,6 +128,7 @@ const HomePage1 = () => {
                       fontSize: '1.1rem',
                       fontWeight: 'bold',
                       borderColor: '#000',
+                      backgroundColor: getColors().greenAccent[700],
                       color: '#000',
                       borderWidth: 2,
                       '&:hover': {

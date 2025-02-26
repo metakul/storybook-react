@@ -5,6 +5,7 @@ import RoadmapSection from './RoadmapSection';
 import HowItWorks from './HowItWorks';
 import FaqSection from './FaqSection';
 import Footer from '../../layout/Footer';
+import { getColors } from '../../layout/Theme/themes';
 // Add custom CSS for animations
 const customStyles = `
 @keyframes fadeInFromLeft {
@@ -45,7 +46,10 @@ body, html {
 
 const HomePage: React.FC = () => {
   return (
-    <Box sx={{ width: '100%', overflowX: 'hidden' }}>
+    <Box sx={{ width: '100%', overflowX: 'hidden',
+              background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%,${getColors().yellowAccent[100]} 50%, ${getColors().yellowAccent[300]} 100%)`,
+      
+     }}>
       {/* Add CssBaseline to normalize CSS */}
       <CssBaseline />
       

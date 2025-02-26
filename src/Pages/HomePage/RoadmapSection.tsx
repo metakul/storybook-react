@@ -8,7 +8,6 @@ import {
   useTheme,
   useMediaQuery
 } from "@mui/material";
-import { getColors } from "../../layout/Theme/themes";
 import RoadmapItem from "./RoadmapItems";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { ParticleBackground } from '../HomePage/ParticleBackground';
@@ -100,13 +99,9 @@ const RoadmapSection: React.FC = () => {
   return (
     <Box 
       sx={{
-        background: isDarkMode 
-          ? `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%, #FFF9C4 50%, ${getColors().yellowAccent[300]} 100%)`
-          : `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%, #FFF9C4 50%, ${getColors().yellowAccent[300]} 100%)`,
         position: 'relative',
         overflow: 'hidden',
-        py: { xs: 10, md: 16 },
-        minHeight: '100vh',
+        py: { xs: 4, md: 8 },
         color: isDarkMode ? '#FFF' : 'inherit'
       }}
       id="roadmap"
