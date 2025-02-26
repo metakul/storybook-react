@@ -186,7 +186,6 @@ export const tokens = (mode: string) => ({
 
 
 
-// mui theme settings
 export const themeSettings = (mode: PaletteMode): ExtendedTheme => {
     const colors = tokens(mode);
     return {
@@ -213,9 +212,10 @@ export const themeSettings = (mode: PaletteMode): ExtendedTheme => {
                         },
                         background: {
                             default: colors.primary[900],
+                            paper: 'rgba(255, 255, 255, 0.85)', // Added bgcolor
                         },
                         backgroundUrl: {
-                            default:  "/img/gradient_dark.jpg",
+                            default: "/img/gradient_dark.jpg",
                         },
                     }
                     : {
@@ -236,10 +236,11 @@ export const themeSettings = (mode: PaletteMode): ExtendedTheme => {
                             light: colors.grey[100],
                         },
                         background: {
-                            default:  colors.primary[900],
+                            default: colors.primary[900],
+                            paper: 'rgba(255, 255, 255, 0.85)', // Added bgcolor
                         },
                         backgroundUrl: {
-                            default:  "/img/gradient.jpg",
+                            default: "/img/gradient.jpg",
                         },
                     }),
             },
@@ -277,6 +278,7 @@ export const themeSettings = (mode: PaletteMode): ExtendedTheme => {
         },
     };
 };
+
 // context for color mode
 interface ColorModeContextType {
     toggleColorMode: () => void;
