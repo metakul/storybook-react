@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import { Settings, SwapVert, KeyboardArrowDown } from '@mui/icons-material';
 import { getColors } from '../../layout/Theme/themes';
-import { useActiveAccount, useReadContract } from 'thirdweb/react';
-import { config, usdtContract } from '../../config';
+// import { useActiveAccount, useReadContract } from 'thirdweb/react';
+// import { config, usdtContract } from '../../config';
 import LoadingButtonWrapper from '../StakingPage/LoadingButtonWrapper';
 
 interface SwapDialogProps {
@@ -41,13 +41,13 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
   exchangeRate
 }) => {
   const colors = getColors();
-  const account = useActiveAccount();
+  // const account = useActiveAccount();
 
-  const { data: approvedFromToken, isLoading: isApprovedTokenLoading } = useReadContract({
-    contract: usdtContract,
-    method: "function allowance(address owner, address spender) view returns (uint256)",
-    params: [account?.address || "0x", config.dexContractAddress],
-  });
+  // const { data: approvedFromToken, isLoading: isApprovedTokenLoading } = useReadContract({
+  //   contract: usdtContract,
+  //   method: "function allowance(address owner, address spender) view returns (uint256)",
+  //   params: [account?.address || "0x", config.dexContractAddress],
+  // });
 
   return (
     <Dialog
@@ -122,13 +122,13 @@ const SwapDialog: React.FC<SwapDialogProps> = ({
             <Typography variant="body2" color="text.secondary">
               1 {fromSymbol} = {exchangeRate} {toSymbol}
             </Typography>
-            <Box>
+            {/* <Box>
               {isApprovedTokenLoading
                 ? "..."
                 : approvedFromToken !== undefined
                   ? `Total Approved Tokens: ${(Number(approvedFromToken) / 1e18).toLocaleString()} ${fromSymbol || 'BUSD'}`
                   : "Connect Your wallet to see balance"}
-            </Box>
+            </Box> */}
           </Paper>
         </Stack>
       </DialogContent>
