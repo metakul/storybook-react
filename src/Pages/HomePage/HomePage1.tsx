@@ -8,8 +8,6 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { Fade, Zoom } from '@mui/material';
-
-// Import our component files
 import { ParticleBackground } from './ParticleBackground';
 import { StatCard } from './StatCard';
 import { CoinDisplay } from './CoinDisplay';

@@ -1,4 +1,3 @@
-// src/pages/HomePage/components/CoinDisplay.tsx
 import React from 'react';
 import { Box, Zoom } from '@mui/material';
 

@@ -82,24 +82,24 @@ const Footer = () => {
                 The Ultimate crypto to invest in Thailand Real Estates with innovative tokenomics and community-driven growth.
               </Typography>
               <Stack direction="row" flexWrap="wrap">
-                <StyledIconButton aria-label="Twitter" component="a" href="https://twitter.com/thaicoin" target="_blank">
+                <IconButton aria-label="Twitter" component="a" href="https://twitter.com/thaicoin" target="_blank">
                   <TwitterIcon />
-                </StyledIconButton>
-                <StyledIconButton aria-label="Telegram" component="a" href="https://t.me/thaicoin" target="_blank">
+                </IconButton>
+                <IconButton aria-label="Telegram" component="a" href="https://t.me/thaicoin" target="_blank">
                   <TelegramIcon />
-                </StyledIconButton>
-                <StyledIconButton aria-label="Discord" component="a" href="https://discord.gg/thaicoin" target="_blank">
+                </IconButton>
+                <IconButton aria-label="Discord" component="a" href="https://discord.gg/thaicoin" target="_blank">
                   <DiscordIcon />
-                </StyledIconButton>
-                <StyledIconButton aria-label="Reddit" component="a" href="https://reddit.com/r/thaicoin" target="_blank">
+                </IconButton>
+                <IconButton aria-label="Reddit" component="a" href="https://reddit.com/r/thaicoin" target="_blank">
                   <RedditIcon />
-                </StyledIconButton>
-                <StyledIconButton aria-label="GitHub" component="a" href="https://github.com/thaicoin" target="_blank">
+                </IconButton>
+                <IconButton aria-label="GitHub" component="a" href="https://github.com/thaicoin" target="_blank">
                   <GitHubIcon />
-                </StyledIconButton>
-                <StyledIconButton aria-label="Instagram" component="a" href="https://instagram.com/thaicoin" target="_blank">
+                </IconButton>
+                <IconButton aria-label="Instagram" component="a" href="https://instagram.com/thaicoin" target="_blank">
                   <InstagramIcon />
-                </StyledIconButton>
+                </IconButton>
               </Stack>
             </Box>
           </Grid>
