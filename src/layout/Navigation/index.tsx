@@ -7,6 +7,7 @@ import NavItem from './NavItem/NavItem';
 import { CustomDrawer, DrawerHeader } from './style.css';
 import { SwipeableDrawer } from '@mui/material';
 import { getColors } from '../Theme/themes';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export interface MiniDrawerProps {
     isSidebarOpen: boolean;
@@ -27,7 +28,9 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ setIsSidebarOpen, isNonMobile, 
     return (
         <>
             {isNonMobile ? (
-                <CustomDrawer  PaperProps={{
+                <CustomDrawer   ModalProps={{
+                    keepMounted: false,
+                  }} PaperProps={{
                     sx: {
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
@@ -40,6 +43,11 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ setIsSidebarOpen, isNonMobile, 
         
                     },
                   }} variant="permanent" open={isSidebarOpen}>
+                    <DrawerHeader>
+                        <IconButton onClick={setIsSidebarOpen}>
+                            <MenuIcon />
+                        </IconButton>
+                    </DrawerHeader>
                     <Divider />
                     <List>
                         {navConfig.map((item, index) => (
@@ -74,7 +82,7 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ setIsSidebarOpen, isNonMobile, 
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       marginTop: "75px",
-                      marginLeft: 2,
+                      marginLeft: 1,
                       borderRadius: 4,
                       height: "85%",
                       paddingBottom:"40px",

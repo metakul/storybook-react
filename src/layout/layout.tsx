@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Container, useMediaQuery } from "@mui/material";
 
 import Header from "./TopBar";
 
@@ -10,13 +10,11 @@ import navConfig from "./navConfig";
 // home page tabs
 import { Outlet } from "react-router-dom";
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
-//theme
-import { ColorModeContext, getColors, useMode } from "./Theme/themes";
+
 import Footer from "./Footer";
+import { getColors } from "./Theme/themes";
 
 export default function DashboardLayout() {
-  const [theme, colorMode] = useMode();
   const isNonMobile = useMediaQuery("(min-width: 768px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [, setShowOutlet] = useState<boolean>(false);
@@ -26,11 +24,10 @@ export default function DashboardLayout() {
   };
   return (
     <>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+ 
           <Header
             APP_BAR={APP_BAR}
+            isNonMobile={isNonMobile}
             setIsSidebarOpen={handleSideBarState}
           />
           <MiniDrawer
@@ -43,17 +40,17 @@ export default function DashboardLayout() {
           />
           <Box
             sx={{
-              background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%,${getColors().yellowAccent[100]} 50%, ${getColors().yellowAccent[300]} 100%)`,
               mt: 8,
-              pl:10
+              pl:isNonMobile ? 8 : 0,
+              background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%,${getColors().yellowAccent[500]} 50%, ${getColors().yellowAccent[300]} 100%)`,
+
             }}
           >
             <Outlet />
           <Footer />
           </Box>
 
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+
     </>
   );
 }

@@ -23,9 +23,11 @@ import { client } from "../../client";
 interface HeaderProps {
   setIsSidebarOpen: () => void;
   APP_BAR: string
+  isNonMobile: boolean;
+
 }
 
-const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR }) => {
+const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR, isNonMobile }) => {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme()
   const [isOn, setIsOn] = useState(false);
@@ -47,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR }) => {
     }} >
       <Toolbar>
 
-        <IconButton
+     {!isNonMobile &&   <IconButton
           onClick={() => setIsSidebarOpen()}
           sx={{
             mt: 2,
@@ -57,6 +59,7 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR }) => {
           <MenuIcon />
           {/* <img src={`/Images/main-menu.png`} alt="logo" className="w-8 h-8 ml-4" /> */}
         </IconButton>
+}
         <Box
           onClick={() => navigate("/")}
           sx={{ cursor: "pointer", mt: 2 }}

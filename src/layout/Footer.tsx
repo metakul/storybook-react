@@ -62,10 +62,10 @@ const Footer = () => {
         color: 'white',
         pt: 6,
         pb: 3,
+        pl:4,
         backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%)',
       }}
     >
-      <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={3}>
             <Box sx={{ mb: 4 }}>
@@ -162,7 +162,6 @@ const Footer = () => {
             $THAI is a community-driven project. Trading cryptocurrencies involves significant risk.
           </Typography>
         </Box>
-      </Container>
     </Box>
   );
 };
