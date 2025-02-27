@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Container, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 import Header from "./TopBar";
 
@@ -42,7 +42,7 @@ export default function DashboardLayout() {
             sx={{
               mt: 8,
               pl:isNonMobile ? 8 : 0,
-              background: `linear-gradient(135deg, ${getColors().yellowAccent[100]} 0%,${getColors().yellowAccent[500]} 50%, ${getColors().yellowAccent[300]} 100%)`,
+              background: `linear-gradient(135deg, ${getColors().yellowAccent[500]} 0%,${getColors().yellowAccent[800]} 50%, ${getColors().yellowAccent[300]} 100%)`,
 
             }}
           >

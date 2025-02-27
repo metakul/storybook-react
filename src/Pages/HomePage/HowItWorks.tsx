@@ -2,7 +2,6 @@ import React from 'react';
 import { Avatar, Box, List, ListItem, Typography, useTheme } from '@mui/material';
 import { motion } from "framer-motion";
 import { ParticleBackground } from './ParticleBackground';
-import { getColors } from "../../layout/Theme/themes";
 
 const HowItWorks: React.FC = () => {
   const theme = useTheme();

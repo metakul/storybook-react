@@ -16,9 +16,10 @@ interface StakingMetricsProps {
 const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
   <Card sx={{
     bgcolor: getColors().primary[900],
-    color: 'white',
     borderRadius: '16px',
-    height: '150px'
+    height: '150px',
+    backgroundColor:getColors().yellowAccent[300],
+
   }}>
     <CardContent sx={{ p: 4 }}>
       <Typography variant="h4" sx={{
@@ -51,7 +52,7 @@ export const StakingMetrics: React.FC<StakingMetricsProps> = ({
       display: 'flex',
       flexDirection: 'column',
       gap: 2,
-      flex: '1 1 38%'
+      flex: '1 1 38%',
     }}>
       <MetricCard 
         value={`$${(Number(totalLocked || 0n) / 1e18).toLocaleString(undefined, {

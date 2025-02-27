@@ -55,6 +55,11 @@ const StakingPage: React.FC = () => {
     method: "function symbol() returns (string)",
     params: [],
   });
+  const { data: erc20Name } = useReadContract({
+    contract: erc20contract,
+    method: "function name() returns (string)",
+    params: [],
+  });
 
   const { data: erc20ApprovedToken, isLoading: isApprovedTokenLoading } = useReadContract({
     contract: erc20contract,
@@ -203,17 +208,17 @@ const StakingPage: React.FC = () => {
       }}>
         <Card sx={{
           flex: '1 1 60%',
-          bgcolor: getColors().primary[900],
+          bgcolor: getColors().yellowAccent[300],
           color: getColors().grey[100],
           borderRadius: '16px'
         }}>
           <CardContent sx={{ p: 4 }}>
             <Typography variant="h4" sx={{
-              fontWeight: 500,
+              fontWeight: 600,
               mb: 1,
-              fontSize: '28px'
+              fontSize: '24px'
             }}>
-              Participate IGO Stake
+              Participate IGO Stake : {erc20Name}
             </Typography>
 
             <Typography variant="h5" sx={{ mb: 3 }}>

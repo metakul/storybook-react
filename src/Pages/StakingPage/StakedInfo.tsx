@@ -40,19 +40,19 @@ const Toast: React.FC<ToastProps> = ({ message, type, onConfirm, onCancel, isVis
   if (!isVisible) return null;
 
   const colors = getColors();
-  
-const getBackgroundColor = () => {
-  switch (type) {
-    case 'warning':
-      return colors.secondary[500];
-    case 'success':
-      return colors.greenAccent[500];
-    case 'error':
-      return colors.redAccent[500];
-    default:
-      return colors.primary[500];
-  }
-};
+
+  const getBackgroundColor = () => {
+    switch (type) {
+      case 'warning':
+        return colors.secondary[500];
+      case 'success':
+        return colors.greenAccent[500];
+      case 'error':
+        return colors.redAccent[500];
+      default:
+        return colors.primary[500];
+    }
+  };
 
   return (
     <Box
@@ -83,13 +83,13 @@ const getBackgroundColor = () => {
         <Typography sx={{ color: colors.grey[100], mb: onConfirm ? 2 : 0 }}>
           {message}
         </Typography>
-        
+
         {(onConfirm || onCancel) && (
-          <Box sx={{ 
-            display: 'flex', 
+          <Box sx={{
+            display: 'flex',
             justifyContent: 'flex-end',
             gap: 1,
-            mt: 2 
+            mt: 2
           }}>
             {onCancel && (
               <Button
@@ -141,8 +141,8 @@ const StakeDetailRow: React.FC<StakeDetailRowProps> = ({ label, value }) => (
     flexWrap: 'wrap'
   }}>
     <Typography>{label}:</Typography>
-    <Typography sx={{ 
-      color: getColors().grey[100], 
+    <Typography sx={{
+      color: getColors().grey[100],
       fontWeight: 500,
       ml: 2
     }}>
@@ -174,7 +174,7 @@ const StakedInfo: React.FC = () => {
     onCancel?: () => void
   ) => {
     setToast({ message, type, isVisible: true, onConfirm, onCancel });
-  
+
     if (type === 'success') {
       setTimeout(() => {
         hideToast();
@@ -193,7 +193,7 @@ const StakedInfo: React.FC = () => {
           hideToast();
         }
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [toast.isVisible]);
@@ -221,7 +221,7 @@ const StakedInfo: React.FC = () => {
 
       await sendTransaction(withdrawTx);
       showToast("Withdrawal successful!", "success");
-      
+
     } catch (error: any) {
       console.error("Withdrawal failed:", error);
       let errorMessage = "Withdrawal failed. Please try again.";
@@ -245,7 +245,7 @@ const StakedInfo: React.FC = () => {
 
     const currentTime = BigInt(Math.floor(Date.now() / 1000));
     const endTime = startTime + duration;
-    
+
     if (currentTime < endTime) {
       showToast(
         "Warning: Early withdrawal will result in a 50% penalty on your rewards. Do you wish to continue?",
@@ -272,9 +272,9 @@ const StakedInfo: React.FC = () => {
 
   if (!stakingDetails || stakingDetails[3].length === 0) {
     return (
-      <Box sx={{ 
+      <Box sx={{
         p: { xs: 2, sm: 4 },
-        color: 'rgba(148, 163, 184, 1)' 
+        color: 'rgba(148, 163, 184, 1)'
       }}>
         <Typography variant="h4" sx={{
           color: getColors().grey[200],
@@ -290,11 +290,11 @@ const StakedInfo: React.FC = () => {
   }
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       p: { xs: 2, sm: 4 }
     }}>
       <Toast {...toast} />
-      
+
       <Typography variant="h4" sx={{
         color: getColors().grey[200],
         mb: 3,
@@ -321,11 +321,11 @@ const StakedInfo: React.FC = () => {
 
           return (
             <Card key={index} sx={{
-              bgcolor: getColors().primary[900],
-              color: getColors().grey[100],
-              borderRadius: '16px'
+              borderRadius: '16px',
+              backgroundColor: getColors().yellowAccent[300],
+
             }}>
-              <CardContent sx={{ 
+              <CardContent sx={{
                 p: { xs: 2, sm: 4 }
               }}>
                 <Box sx={{
@@ -337,7 +337,7 @@ const StakedInfo: React.FC = () => {
                   gap: { xs: 2, sm: 0 }
                 }}>
                   <Typography variant="h6" sx={{
-                    color: getColors().secondary[300],
+                    color: getColors().secondary[400],
                   }}>
                     Stake #{index + 1}
                   </Typography>
@@ -355,44 +355,44 @@ const StakedInfo: React.FC = () => {
                   </Box>
                 </Box>
 
-                <Box sx={{ 
-                  color: 'rgba(148, 163, 184, 1)',
+                <Box sx={{color: getColors().primary[100],
+
                   fontSize: { xs: '0.875rem', sm: '1rem' }
                 }}>
-                  <StakeDetailRow 
+                  <StakeDetailRow
                     label="Amount Staked"
                     value={`${formatBigInt(stake.amount)} ${erc20Symbol}`}
                   />
-                  <StakeDetailRow 
+                  <StakeDetailRow
                     label="Start Date"
                     value={stakingStartDate.toLocaleDateString()}
                   />
-                  <StakeDetailRow 
+                  <StakeDetailRow
                     label="Duration"
                     value={`${stakingPeriodInDays.toString()} Days`}
                   />
                   {!stake.rewardsClaimed && (
-                    <StakeDetailRow 
+                    <StakeDetailRow
                       label="End Date"
                       value={formattedEndDate}
                     />
                   )}
-                  <StakeDetailRow 
+                  <StakeDetailRow
                     label={stake.rewardsClaimed ? "Claimed Rewards" : "Earned Rewards"}
                     value={`${formatBigInt(stake.rewardsClaimed ? stake.claimedRewards : stake.earned)} ${erc20Symbol}`}
                   />
                 </Box>
 
                 {!stake.rewardsClaimed && (
-      <Box sx={{ mt: 3 }}>
-        <LoadingButtonWrapper
-          onClick={() => handleWithdraw(index, stake.startTime, stake.duration)}
-          disabled={!account}
-        >
-          Withdraw
-        </LoadingButtonWrapper>
-      </Box>
-    )}
+                  <Box sx={{ mt: 3 }}>
+                    <LoadingButtonWrapper
+                      onClick={() => handleWithdraw(index, stake.startTime, stake.duration)}
+                      disabled={!account}
+                    >
+                      Withdraw
+                    </LoadingButtonWrapper>
+                  </Box>
+                )}
               </CardContent>
             </Card>
           );

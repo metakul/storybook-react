@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button, Alert } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract, useWalletBalance } from "thirdweb/react";
-import { defaultChain, dexContract, erc20contract } from '../../config';
+import { _presaleId, defaultChain, dexContract, erc20contract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
 import { getColors } from '../../layout/Theme/themes';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
@@ -44,6 +44,14 @@ const StakingPage: React.FC = () => {
     params: [account?.address || "0x"],
   });
 
+  const { data: preSaleInfo } = useReadContract({
+    contract: erc20contract,
+    method: "function getPresale(uint256 _presaleId) view returns ((uint256 id, uint256 tokenAmount, uint256 tokensSold, uint256 tokenPrice, uint256 totalRaised, bool isActive))",
+    params: [_presaleId !== undefined ? BigInt(_presaleId) : BigInt(0)],
+  });
+
+  console.log(preSaleInfo);
+  
   // const { data: usdtSymbol } = useReadContract({
   //   contract: usdtContract,
   //   method: "function symbol() returns (string)",
@@ -134,11 +142,11 @@ const StakingPage: React.FC = () => {
 
     try {
 
-      //  Swap USDT for THAI
+      //  Swap POL for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
         method: "function buyTokens( uint256 _presaleId, uint256 amount) payable",
-        params: [BigInt(1),  BigInt(thaiAmount * 1e18)], // todo Update presaleId
+        params: [_presaleId !== undefined ? BigInt(_presaleId) : BigInt(0), BigInt(thaiAmount * 1e18)], // todo Update presaleId
         value: amountInWei,
       });
 
@@ -163,7 +171,7 @@ const StakingPage: React.FC = () => {
       }}>
         <Card sx={{
           flex: '1 1 60%',
-          bgcolor: getColors().primary[900],
+          bgcolor: getColors().yellowAccent[300],
           color: getColors().grey[100],
           borderRadius: '16px'
         }}>
@@ -176,7 +184,7 @@ const StakingPage: React.FC = () => {
               My Wallet Balance: {isUserBalanceLoading
                 ? "Loading..."
                 : erc20Balance !== undefined
-                  ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'BUSD'}`
+                  ? `${(Number(erc20Balance) / 1e18).toLocaleString()} ${erc20Symbol || 'POL'}`
                   : "Connect Your wallet to see balance"}
             </Typography>
             <Typography variant="h5" sx={{ mb: 3 }}>
@@ -187,12 +195,12 @@ const StakingPage: React.FC = () => {
                   : "Connect Your wallet to see balance"}
             </Typography>
 
-            {/* First Token Input: BUSD */}
+            {/* First Token Input: POL */}
             <TokenInput
               value={userAmount}
               onChange={setUserAmount}
               onMaxClick={() => setUserAmount(Number(userBalance || 0n) / 1e18)}
-              actionLabel="USDT"
+              actionLabel="POL"
               disabled={true}
             />
 
@@ -206,7 +214,7 @@ const StakingPage: React.FC = () => {
             <TokenInput
               value={thaiAmount}
               disabled={true}
-              actionLabel="THAI"
+              actionLabel={erc20Symbol}
             />
             <LoadingButtonWrapper onClick={handleApprove} disabled={false}>
               Review swap

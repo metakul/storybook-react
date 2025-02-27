@@ -1,5 +1,5 @@
 // src/components/Footer/Footer.tsx
-import { Box, Container, Grid, Typography, Stack, IconButton, Divider } from '@mui/material';
+import { Box, Grid, Typography, Stack, IconButton, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import TelegramIcon from '@mui/icons-material/Telegram';
