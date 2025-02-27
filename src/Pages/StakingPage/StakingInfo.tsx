@@ -40,7 +40,7 @@ export const StakingInfo: React.FC<StakingInfoProps> = ({
   };
 
   return (
-    <Box sx={{ mb: 4, color: 'rgba(148, 163, 184, 1)' }}>
+    <Box sx={{ mb: 4, color: 'rgb(0, 0, 0)' }}>
       <InfoRow label="Lock period:" value={`${duration} Days`} />
       <InfoRow 
         label="Max Staking Threshold:"
