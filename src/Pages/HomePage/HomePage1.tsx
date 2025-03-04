@@ -75,7 +75,7 @@ const HomePage1 = () => {
                   variant="h6" 
                   sx={{ 
                     fontSize: { xs: '1.1rem', md: '1.4rem' },
-                    color: getColors().grey[300],
+                    color: getColors().grey[800],
                     mb: { xs: 4, md: 6 },
                     maxWidth: '90%'
                   }}
