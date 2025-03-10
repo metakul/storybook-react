@@ -47,7 +47,7 @@ const HomePage1 = () => {
                   sx={{ 
                     fontSize: { xs: '0.9rem', md: '1rem' },
                     fontWeight: 'bold',
-                    color: getColors().blueAccent[400],
+                    color: getColors().blueAccent[600],
                     letterSpacing: 2,
                     textTransform: 'uppercase',
                     display: 'block',
@@ -80,7 +80,7 @@ const HomePage1 = () => {
                     maxWidth: '90%'
                   }}
                 >
-                  The Ultimate crypto to invest in Thailand Real Estates with innovative tokenomics and community-driven growth.
+                 The ultimate crypto investment for real estate, combining innovative tokenomics with community-driven growth. 
                 </Typography>
 
                 <Stack 
@@ -165,29 +165,29 @@ const HomePage1 = () => {
           
           <Grid container spacing={4}>
             <StatCard 
-              number="$12.5M" 
-              label="Market Cap" 
+              number="POLYGON" 
+              label="Network" 
               color="#FFD700" 
               icon={<AccountBalanceIcon fontSize="inherit" />}
               delay={200}
             />
             <StatCard 
-              number="42,500+" 
-              label="Holders" 
+              number="10 Million" 
+              label="Total Supply" 
               color="#FFD700" 
               icon={<LocalAtmIcon fontSize="inherit" />}
               delay={400}
             />
             <StatCard 
-              number="18%" 
+              number="30%" 
               label="APY Staking" 
               color="#FFD700" 
               icon={<AccountBalanceIcon fontSize="inherit" />}
               delay={600}
             />
             <StatCard 
-              number="$2.8M" 
-              label="24h Volume" 
+              number="THBCN" 
+              label="Token "
               color="#FFD700" 
               icon={<LocalAtmIcon fontSize="inherit" />}
               delay={800}

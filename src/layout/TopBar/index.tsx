@@ -1,21 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 // @mui
 import {
   Box,
-  Stack,
+  // Stack,
   AppBar,
   Toolbar,
   IconButton,
-  useTheme,
+  // useTheme,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
 } from "@mui/icons-material";
 import { ColorModeContext, getColors } from "../Theme/themes";
 
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import "./style.css"
 import { ConnectButton } from "thirdweb/react";
 import { client } from "../../client";
@@ -29,17 +29,17 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR, isNonMobile }) => {
   const colorMode = useContext(ColorModeContext);
-  const theme = useTheme()
-  const [isOn, setIsOn] = useState(false);
+  // const theme = useTheme()
+  // const [isOn, setIsOn] = useState(false);
   const navigate = useNavigate()
   if (!colorMode) {
     return null;
   }
 
-  const toggleSwitch = () => {
-    colorMode.toggleColorMode()
-    setIsOn(!isOn);
-  }
+  // const toggleSwitch = () => {
+  //   colorMode.toggleColorMode()
+  //   setIsOn(!isOn);
+  // }
 
   return (
     <AppBar sx={{
@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR, isNonMobile 
 
         <Box sx={{ flexGrow: 1 }} />
         <ConnectButton client={client} />
-        <Stack
+        {/* <Stack
           sx={{
             mt: 1
           }}
@@ -91,16 +91,16 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, APP_BAR, isNonMobile 
               background: theme.palette.grey[100],
             }} />
           </div>
-        </Stack>
+        </Stack> */}
       </Toolbar>
     </AppBar>
   );
 }
-const spring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 30
-};
+// const spring = {
+//   type: "spring",
+//   stiffness: 700,
+//   damping: 30
+// };
 
 
 export default Header;

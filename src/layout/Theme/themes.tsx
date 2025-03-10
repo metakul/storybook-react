@@ -287,7 +287,7 @@ interface ColorModeContextType {
 export const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined);
 
 export const useMode = (): [Theme, ColorModeContextType] => {
-    const [mode, setMode] = useState<PaletteMode>("light");
+    const [mode, setMode] = useState<PaletteMode>("dark");
 
     const colorMode = useMemo(
         () => ({

@@ -13,7 +13,7 @@ import { client } from "../../client";
  
 const FIXED_EXCHANGE_RATE = 100;
 
-const StakingPage: React.FC = () => {
+const SwapPage: React.FC = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
@@ -163,13 +163,15 @@ const StakingPage: React.FC = () => {
 
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container sx={{ py: 4 }}>
       <Box sx={{
         display: 'flex',
         gap: 2,
-        flexDirection: isMdUp ? "row" : "column",
+        flexDirection:"column",
+        justifyContent:"center"
       }}>
         <Card sx={{
+          maxWidth:"md",
           flex: '1 1 60%',
           bgcolor: getColors().yellowAccent[300],
           color: getColors().grey[100],
@@ -232,8 +234,6 @@ const StakingPage: React.FC = () => {
             />
 
           </CardContent>
-        </Card>
-      </Box>
       <Alert sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -246,8 +246,10 @@ const StakingPage: React.FC = () => {
           Stake Now
         </Button>
       </Alert>
+        </Card>
+      </Box>
     </Container>
   );
 };
 
-export default StakingPage;
+export default SwapPage;

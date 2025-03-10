@@ -25,6 +25,7 @@
     "react-hot-toast": "^2.5.2",
     "react-intersection-observer": "^9.15.1",
     "react-router-dom": "^7.1.5",
+    "react-swipeable": "^7.0.2",
     "react-timeline-animation": "^1.2.3",
     "tailwindcss": "^4.0.8",
     "thirdweb": "^5.88.5"

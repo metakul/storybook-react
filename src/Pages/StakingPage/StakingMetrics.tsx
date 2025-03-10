@@ -31,7 +31,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
         {value}
       </Typography>
       <Typography sx={{
-        color: 'rgba(148, 163, 184, 1)',
+                      color: 'rgb(91, 110, 134)',
         fontSize: '16px',
         mt: 1
       }}>

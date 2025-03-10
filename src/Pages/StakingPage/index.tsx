@@ -248,10 +248,6 @@ const StakingPage: React.FC = () => {
 
             <Box sx={{
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mb: 2,
-              position: 'relative'
             }}>
               <Typography sx={{
                 fontSize: '48px',
@@ -261,7 +257,7 @@ const StakingPage: React.FC = () => {
                 {selectedAPY}%
               </Typography>
               <Typography sx={{
-                color: 'rgba(148, 163, 184, 1)',
+                color: 'rgb(230, 220, 168)',
               }}>
                 APY*
               </Typography>
@@ -305,7 +301,7 @@ const StakingPage: React.FC = () => {
             />
 
             <Typography sx={{
-              color: 'rgba(148, 163, 184, 1)',
+              color: 'rgb(91, 110, 134)',
               fontSize: '14px',
               mb: 1,
               lineHeight: 1.5
