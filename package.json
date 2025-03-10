@@ -27,6 +27,7 @@
     "react-router-dom": "^7.1.5",
     "react-swipeable": "^7.0.2",
     "react-timeline-animation": "^1.2.3",
+    "recharts": "^2.15.1",
     "tailwindcss": "^4.0.8",
     "thirdweb": "^5.88.5"
   },

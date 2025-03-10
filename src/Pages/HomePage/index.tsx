@@ -4,6 +4,7 @@ import HomePage1 from './HomePage1';
 import RoadmapSection from './RoadmapSection';
 import HowItWorks from './HowItWorks';
 import FaqSection from './FaqSection';
+import TokenomicsChart from '../../components/Charts';
 // Add custom CSS for animations
 
 const HomePage: React.FC = () => {
@@ -17,6 +18,7 @@ const HomePage: React.FC = () => {
       <RoadmapSection />
       <HowItWorks/>
       
+      <TokenomicsChart/>
       {/* FAQ Section */}
       <FaqSection />
     </Box>
