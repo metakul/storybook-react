@@ -24,7 +24,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF0042", "green"];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
-    const { name, value, percentage } = payload[0].payload;
+    const { name, percentage } = payload[0].payload;
     return (
       <Box sx={{ backgroundColor: "black", p: 1, borderRadius: 1, boxShadow: 2 }}>
         <Typography variant="body2" fontWeight="bold">{name}</Typography>
@@ -72,9 +72,9 @@ const TokenomicsChart: React.FC = () => {
             dataKey="value"
             onMouseLeave={onPieLeave}
             isAnimationActive
-            label={({ name, percentage }) => `${name}: ${percentage}`}
+            label={({ name, percentage }: { name: string; percentage: string }) => `${name}: ${percentage}`}
           >
-            {data.map((entry, index) => (
+            {data.map((_entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
@@ -84,7 +84,7 @@ const TokenomicsChart: React.FC = () => {
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
-          {/* <Legend verticalAlign="bottom" align="center" /> */}
+          <Legend verticalAlign="bottom" align="center" />
         </PieChart>
       </ResponsiveContainer>
     </Box>

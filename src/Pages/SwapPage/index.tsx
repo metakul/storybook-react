@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Container, Card, CardContent, Typography, useMediaQuery, useTheme, Button, Alert } from '@mui/material';
+import { Box, Container, Card, CardContent, Typography,  Button, Alert } from '@mui/material';
 import { useActiveAccount, useSendTransaction, useReadContract, useWalletBalance } from "thirdweb/react";
 import { _presaleId, defaultChain, dexContract, erc20contract } from '../../config';
 import { prepareContractCall } from 'thirdweb';
@@ -14,8 +14,6 @@ import { client } from "../../client";
 const FIXED_EXCHANGE_RATE = 100;
 
 const SwapPage: React.FC = () => {
-  const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const account = useActiveAccount();
   const { mutate: sendTransaction } = useSendTransaction();
